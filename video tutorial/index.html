@@ -1453,7 +1453,7 @@ function renderSidebar() {
       const actionLabel = l.video_url ? 'Play' : (l.type === 'quiz' ? 'Start' : (l.type === 'article' ? 'Read' : 'Open'));
       const actionHandler = l.video_url
         ? `playLectureFromSidebar('${l.id}', event)`
-        : `openCourseItem('${l.id}')`;
+        : `event.stopPropagation(); openCourseItem('${l.id}')`;
       row.innerHTML = `
         <span class="checkbox-square ${done ? 'checked':''}" onclick="toggleComplete('${l.id}', event)">${done ? '✓' : ''}</span>
         <div class="flex-1 min-w-0">
@@ -1613,11 +1613,7 @@ function renderPlayer() {
     area.style.alignItems = 'center';
     area.style.justifyContent = 'flex-start';
     const body = lecture.article_body || '<p class="text-gray-500 italic">No content yet. Open the Admin Panel to add notes/article body for this item.</p>';
-    const mediaId = firstMediaLectureId();
-    const jump = mediaId && mediaId !== lecture.id
-      ? `<div class="course-start-media"><button type="button" onclick="playLectureFromSidebar('${mediaId}', event)" class="course-play-btn">Play video</button></div>`
-      : '';
-    area.innerHTML = `<div class="article-body p-8 overflow-y-auto w-full h-full max-h-[60vh]">${jump}${renderArticleBody(body)}</div>`;
+    area.innerHTML = `<div class="article-body p-8 overflow-y-auto w-full h-full max-h-[60vh]">${renderArticleBody(body)}</div>`;
   } else if ((lecture.resources || []).length) {
     area.style.background = '#fff';
     area.style.color = '#111827';
