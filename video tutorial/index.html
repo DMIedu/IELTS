@@ -1096,12 +1096,22 @@ function applyDmiSectionOneResourceUpdates() {
             l.type = 'article';
             changed = true;
           }
+          if (l.video_url) {
+            l.video_url = '';
+            changed = true;
+          }
           if (l.article_body !== DMI_WHY_CHOOSE_BODY) {
             l.article_body = DMI_WHY_CHOOSE_BODY;
             changed = true;
           }
           if (Array.isArray(l.resources) && l.resources.length) {
             l.resources = [];
+            changed = true;
+          }
+        }
+        if (l.id === 'lec-3-s1' || l.id === 'lec-4-s1') {
+          if (l.video_url) {
+            l.video_url = '';
             changed = true;
           }
         }
