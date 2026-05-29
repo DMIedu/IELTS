@@ -789,6 +789,20 @@ Use these role plays regularly to build fluency and exam confidence. DMI Compute
 DMI IELTS Department
 DMI Computer Education`;
 
+const DMI_WHY_CHOOSE_BODY = `# Why Choose the DMI IELTS Band 7+ Preparation Course?
+
+DMI Computer Education supports IELTS students with guided lessons, practice materials, mock exam preparation, and registration support.
+
+## What This Course Gives You
+
+- Clear IELTS preparation guidance for Academic and General Training.
+- Reading, Writing, Listening, and Speaking practice in one LMS.
+- Course resources and notes for important lessons.
+- Support from DMI's IELTS teaching team.
+- Practice papers and video lessons for regular revision.
+
+Use this LMS step by step. Start from the course overview, complete each lesson, and use the Resources tab whenever notes or downloadable materials are attached.`;
+
 const DMI_IELTS_2026_NOTICE_BODY = `# Notification: About Alleged IELTS Exam 2026 Format Update
 
 Dear DMI IELTS Students,
@@ -1054,6 +1068,53 @@ function applyDmiCourseTextUpdates() {
   if (changed) save(LS.COURSES, courses);
 }
 
+function sameResources(current, expected) {
+  if (!Array.isArray(current) || current.length !== expected.length) return false;
+  return expected.every((item, index) => current[index]?.title === item.title && current[index]?.url === item.url);
+}
+
+function applyDmiSectionOneResourceUpdates() {
+  const courses = load(LS.COURSES, []);
+  const resourceMap = {
+    'lec-2-s1': [
+      { title: 'Course Description Resource 1', url: 'video/2/course-description-resource-1.docx' },
+      { title: 'Course Description Resource 2', url: 'video/2/course-description-resource-2.docx' },
+    ],
+    'lec-3-s1': [
+      { title: 'Speaking Role Play Note', url: 'video/2/speaking-role-play-note.txt' },
+    ],
+    'lec-4-s1': [
+      { title: 'IELTS Course Books Note', url: 'video/2/ielts-course-books-note.txt' },
+    ],
+  };
+  let changed = false;
+  for (const c of courses) {
+    for (const s of c.sections || []) {
+      for (const l of s.lectures || []) {
+        if (l.id === 'lec-1-s1') {
+          if (l.type !== 'article') {
+            l.type = 'article';
+            changed = true;
+          }
+          if (l.article_body !== DMI_WHY_CHOOSE_BODY) {
+            l.article_body = DMI_WHY_CHOOSE_BODY;
+            changed = true;
+          }
+          if (Array.isArray(l.resources) && l.resources.length) {
+            l.resources = [];
+            changed = true;
+          }
+        }
+        if (resourceMap[l.id] && !sameResources(l.resources, resourceMap[l.id])) {
+          l.resources = resourceMap[l.id].map(r => ({ ...r }));
+          changed = true;
+        }
+      }
+    }
+  }
+  if (changed) save(LS.COURSES, courses);
+}
+
 function applyDmiQuizQuestionUpdates() {
   const courses = load(LS.COURSES, []);
   let changed = false;
@@ -1156,6 +1217,7 @@ function seed() {
 seed();
 applyDefaultLectureVideoUrls();
 applyDmiCourseTextUpdates();
+applyDmiSectionOneResourceUpdates();
 applyDmiQuizQuestionUpdates();
 
 // ============================================================
