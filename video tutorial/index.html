@@ -1991,7 +1991,7 @@ function renderAnnounce() {
 function renderResources(lecture) {
   const list = document.getElementById('resourceList');
   if (!lecture.resources || !lecture.resources.length) { list.innerHTML = '<li class="text-gray-500">No resources for this lecture.</li>'; return; }
-  list.innerHTML = lecture.resources.map(r => `<li><a class="ud-purple-text underline" href="${escapeAttr(r.url)}" target="_blank">📎 ${escapeHTML(r.title || r.url)}</a></li>`).join('');
+  list.innerHTML = lecture.resources.map(r => `<li><a class="ud-purple-text underline" href="${escapeAttr(normalizeMediaUrl(r.url || '#'))}" target="_blank" rel="noopener">📎 ${escapeHTML(r.title || r.url)}</a></li>`).join('');
 }
 
 // ============================================================

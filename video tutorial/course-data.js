@@ -20,7 +20,16 @@ window.SEED_COURSES = [
           "title": "Why Choose the DMI IELTS Band 7+ Preparation Course?",
           "duration_min": 2,
           "video_url": "",
-          "resources": [],
+          "resources": [
+            {
+              "title": "Course Description Resource 1",
+              "url": "video/2/course-description-resource-1.docx"
+            },
+            {
+              "title": "Course Description Resource 2",
+              "url": "video/2/course-description-resource-2.docx"
+            }
+          ],
           "completed": false
         },
         {
@@ -30,7 +39,12 @@ window.SEED_COURSES = [
           "title": "Course Description and Introduction",
           "duration_min": 9,
           "video_url": "video/2/2Course Description and Introduction \u2014 9min.mp4",
-          "resources": [],
+          "resources": [
+            {
+              "title": "Speaking Role Play Note",
+              "url": "video/2/speaking-role-play-note.txt"
+            }
+          ],
           "completed": false
         },
         {
@@ -42,7 +56,12 @@ window.SEED_COURSES = [
           "video_url": "",
           "description": "DMI speaking role play practice helps students prepare for IELTS Speaking with exam-style prompts and active speaking practice.",
           "article_body": "# DMI Speaking Role Play Practice Now Available\n\nDear DMI IELTS Students,\n\nDMI Computer Education has added Speaking Role Play practice to the IELTS Band 7+ Preparation Course. These activities help you practise in an exam-style setting with realistic IELTS Speaking questions, especially for Part 1.\n\n## Why This Helps\n\n- Practise answering naturally under time pressure.\n- Build confidence, fluency, pronunciation awareness, and timing.\n- Reduce fear before the real Speaking test.\n- Train with questions that follow IELTS speaking expectations.\n\n## How DMI Uses This Feature\n\nThis is not only a video lesson. It is active speaking practice. Students should speak out loud, repeat answers when needed, and use teacher feedback during class or lab practice to improve.\n\n## What To Do\n\n- Open the Speaking section of the DMI LMS.\n- Complete each speaking role play activity.\n- Answer aloud as if you are in the real IELTS test.\n- Ask your DMI teacher for guidance after practice.\n\nUse these role plays regularly to build fluency and exam confidence. DMI Computer Education is here to support your progress toward Band 7 and beyond.\n\nDMI IELTS Department\nDMI Computer Education",
-          "resources": [],
+          "resources": [
+            {
+              "title": "IELTS Course Books Note",
+              "url": "video/2/ielts-course-books-note.txt"
+            }
+          ],
           "completed": false
         },
         {
