@@ -1229,14 +1229,26 @@ seed();
 // admin customizations (e.g. notes/resources added for lec-3-s1) on every refresh.
 // We now gate them behind a version flag so they only run once. Bump the version
 // number whenever you genuinely need to re-apply a fix-up across all installs.
-const DMI_MIGRATION_VERSION = 1;
+const DMI_MIGRATION_VERSION = 2;
 const DMI_MIGRATION_KEY = 'lms_dmi_migration_version';
 const appliedMigration = parseInt(localStorage.getItem(DMI_MIGRATION_KEY) || '0', 10) || 0;
-if (appliedMigration < DMI_MIGRATION_VERSION) {
+if (appliedMigration < 1) {
   applyDefaultLectureVideoUrls();
   applyDmiCourseTextUpdates();
   applyDmiSectionOneResourceUpdates();
   applyDmiQuizQuestionUpdates();
+}
+if (appliedMigration < 2) {
+  // v2: reseed courses from the latest baked-in SEED_COURSES so every browser
+  // picks up admin updates pushed via course-data.js. Student progress/notes
+  // live under different keys (lms_progress_*, lms_notes_*) and are untouched.
+  try {
+    if (window.SEED_COURSES && Array.isArray(window.SEED_COURSES)) {
+      save(LS.COURSES, window.SEED_COURSES);
+    }
+  } catch (e) { console.warn('v2 reseed failed', e); }
+}
+if (appliedMigration < DMI_MIGRATION_VERSION) {
   localStorage.setItem(DMI_MIGRATION_KEY, String(DMI_MIGRATION_VERSION));
 }
 

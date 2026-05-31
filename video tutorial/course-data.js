@@ -1,4 +1,5 @@
-// Auto-generated from IELTS_Band_7_Course_Outline.docx
+// Auto-generated from dmi-lms-backup-2026-05-31.json
+// Baked from a full LMS export so every fresh browser sees the latest content.
 // Edit via the LMS admin panel; this file is the initial seed.
 window.SEED_COURSES = [
   {
@@ -22,8 +23,8 @@ window.SEED_COURSES = [
             "video_url": "",
             "resources": [],
             "completed": false,
-            "description": "Overview of DMI IELTS course support, practice papers, LMS resources, and teacher guidance.",
-            "article_body": "# Why Choose the DMI IELTS Band 7+ Preparation Course?\n\nDMI Computer Education supports IELTS students with guided lessons, practice materials, mock exam preparation, and registration support.\n\n## What This Course Gives You\n\n- Clear IELTS preparation guidance for Academic and General Training.\n- Reading, Writing, Listening, and Speaking practice in one LMS.\n- Course resources and notes for important lessons.\n- Support from DMI's IELTS teaching team.\n- Practice papers and video lessons for regular revision.\n\nUse this LMS step by step. Start from the course overview, complete each lesson, and use the Resources tab whenever notes or downloadable materials are attached."
+            "article_body": "# Why Choose the DMI IELTS Band 7+ Preparation Course?\n\nDMI Computer Education supports IELTS students with guided lessons, practice materials, mock exam preparation, and registration support.\n\n## What This Course Gives You\n\n- Clear IELTS preparation guidance for Academic and General Training.\n- Reading, Writing, Listening, and Speaking practice in one LMS.\n- Course resources and notes for important lessons.\n- Support from DMI's IELTS teaching team.\n- Practice papers and video lessons for regular revision.\n\nUse this LMS step by step. Start from the course overview, complete each lesson, and use the Resources tab whenever notes or downloadable materials are attached.",
+            "description": ""
           },
           {
             "id": "lec-2-s1",
@@ -34,15 +35,17 @@ window.SEED_COURSES = [
             "video_url": "video/2/2Course Description and Introduction — 9min.mp4",
             "resources": [
               {
-                "title": "Course Description Resource 1",
-                "url": "video/2/course-description-resource-1.docx"
+                "title": "Accelerated.Academic.Syllabus.IELTS+Band+7",
+                "url": "https://drive.google.com/file/d/1yVDtfPUI2VoQp7KArxBEWb16MBIfylRM/view?usp=drive_link"
               },
               {
-                "title": "Course Description Resource 2",
-                "url": "video/2/course-description-resource-2.docx"
+                "title": "Accelerated.General.Syllabus.IELTS+Band+7",
+                "url": "https://drive.google.com/file/d/1zLi99vlUaBeNvOcVEaeG21gvktq7JRym/view?usp=drive_link"
               }
             ],
-            "completed": false
+            "completed": false,
+            "description": "",
+            "article_body": ""
           },
           {
             "id": "lec-3-s1",
@@ -90,9 +93,11 @@ window.SEED_COURSES = [
             "label": "5",
             "title": "IELTS Exam Basic Information",
             "duration_min": 9,
-            "video_url": "",
+            "video_url": "https://drive.google.com/file/d/1mvwkskSYQQ0FFzcP76OX_IX2qc8xIls3/view?usp=drive_link",
             "resources": [],
-            "completed": false
+            "completed": false,
+            "description": "",
+            "article_body": ""
           },
           {
             "id": "lec-2-s2",
@@ -108,13 +113,15 @@ window.SEED_COURSES = [
           },
           {
             "id": "lec-3-s2",
-            "type": "lecture",
+            "type": "article",
             "label": "7",
             "title": "Computer Based Test v. Paper Based Test",
             "duration_min": 2,
             "video_url": "",
             "resources": [],
-            "completed": false
+            "completed": false,
+            "description": "",
+            "article_body": "# IELTS Test Format\n\n## Important Information\n\nThe IELTS test offered through our partner test centers is conducted **only in Computer-Based format**.\n\nIn the Computer-Based IELTS test:\n\n* Reading questions are completed on a computer.\n* Listening answers are entered on a computer.\n* Writing tasks are typed using a keyboard.\n* Results are typically available faster than traditional paper-based testing.\n\n## Speaking Test\n\nThe IELTS Speaking test is conducted face-to-face with a qualified IELTS examiner.\n\n**Important:** The Speaking test is not completed on a computer and is not a recorded interview.\n\n## Benefits of Computer-Based IELTS\n\n* Faster result processing\n* Easy editing and correction during the Writing test\n* Clear, typed responses without handwriting concerns\n* Adjustable font size for improved readability\n* Headphones provided during the Listening test\n* Modern testing environment\n\n## Preparing for the Computer-Based IELTS\n\nTo maximize your performance:\n\n* Practice typing regularly.\n* Complete computer-based Reading and Listening exercises.\n* Improve your keyboard speed and accuracy.\n* Familiarize yourself with the test interface before exam day.\n* Complete all DMI LMS practice activities and mock tests.\n\n## Useful Computer-Based IELTS Videos\n\n1. Welcome to IELTS on Computer\n2. IELTS Reading\n3. IELTS Listening\n4. IELTS Writing\n5. Highlighting Tools\n6. Word Count Feature\n7. Test Day Experience\n8. How IELTS Is Scored\n\nThese resources will help you become familiar with the Computer-Based IELTS testing environment and build confidence before your exam.\n"
           },
           {
             "id": "lec-4-s2",
@@ -303,23 +310,81 @@ window.SEED_COURSES = [
         "lectures": [
           {
             "id": "lec-1-s3",
-            "type": "lecture",
+            "type": "article",
             "label": "8",
             "title": "Grammar Diagnostic Test",
             "duration_min": 1,
             "video_url": "",
-            "resources": [],
-            "completed": false
+            "resources": [
+              {
+                "title": "Grammar  Diagnostic test",
+                "url": "https://drive.google.com/file/d/1X9spUQkchAaLMVKWKXbMpE25PITowDFr/view?usp=drive_link"
+              },
+              {
+                "title": "Subject specific vocabulary",
+                "url": "https://drive.google.com/file/d/1UKIYyqWfIzrMPKXhUTqtM9WHNEzPM4rk/view?usp=drive_link"
+              },
+              {
+                "title": "Academic word list",
+                "url": "https://drive.google.com/file/d/11BkGYhie3k6AlBFwk_FfQYB-oWQBsFTn/view?usp=drive_link"
+              },
+              {
+                "title": "Descriptive word list 2",
+                "url": "https://drive.google.com/file/d/1rZN-ILFH6_KPE90-nKb0_1qnrt3U2MIx/view?usp=drive_link"
+              },
+              {
+                "title": "2021 Teachers PTE Academic",
+                "url": "https://drive.google.com/file/d/1KOe6cwO70qFkFA9KzbCWdnx2WIPGf32X/view?usp=drive_link"
+              },
+              {
+                "title": "Edited Tofel",
+                "url": "https://drive.google.com/file/d/1Lg3nhvpCvKVMihJOPCIuwF0dpeY8WVL3/view?usp=drive_link"
+              }
+            ],
+            "completed": false,
+            "description": "",
+            "article_body": "# Grammar Diagnostic Test\n\nStrong grammar and vocabulary skills are essential for achieving a high IELTS band score. Many candidates lose valuable marks in both the Writing and Speaking sections due to grammatical errors, limited vocabulary, and inaccurate language use.\n\nTo identify your strengths and weaknesses, complete the Grammar Diagnostic Test provided in the course resources.\n\n## Instructions\n\n1. Open the **Resources** section for this lesson.\n2. Download the **Grammar Diagnostic Test**.\n3. Complete the test independently without using any external assistance.\n4. Check your answers using the answer key provided at the end of the document.\n5. Review any mistakes carefully and focus on improving those areas during your IELTS preparation.\n\n---\n\n# Additional Resources\n\n## I. Grammar and Vocabulary Improvement\n\nFor students who wish to continuously improve their grammar, vocabulary, and writing accuracy, we recommend using:\n\n**Grammarly**\n\nhttps://www.grammarly.com\n\nGrammarly can help identify:\n\n* Grammar mistakes\n* Vocabulary issues\n* Sentence structure problems\n* Style and clarity concerns\n* Punctuation errors\n\n### Recommended Study Method\n\n1. Write your IELTS essay independently.\n2. Upload your essay to Grammarly.\n3. Review the suggested corrections.\n4. Make the corrections yourself.\n5. Recheck your work and learn from your mistakes.\n\nWhile Grammarly Premium is a paid service, many students find it useful for identifying recurring language errors and improving their writing skills.\n\n---\n\n## II. Grammar and Vocabulary Books\n\nAdditional grammar and vocabulary books can provide valuable support for IELTS preparation. Students may obtain these resources through authorized bookstores, libraries, or legitimate online retailers.\n\n---\n\n## III. Grammar Video Lessons\n\nStudents who need additional grammar instruction may find the following video series helpful:\n\n### Khan Academy Grammar Course\n\nhttps://www.youtube.com/watch?v=O-6q-siuMik&list=PL6CQ7apI_8PjSBN8BxukW5Z76k8lRMQEf\n\nThis free video series covers essential grammar concepts including:\n\n* Sentence structure\n* Verb tenses\n* Parts of speech\n* Punctuation\n* Subject-verb agreement\n* Common grammatical errors\n\n---\n\n## IV. Academic Vocabulary Resources\n\nBuilding academic vocabulary is essential for achieving higher IELTS scores.\n\nThe following resources provide access to the Academic Word List (AWL), which contains many of the words commonly found in IELTS Reading and Writing tasks.\n\n### Academic Word List Resources\n\n* https://www.wgtn.ac.nz/lals/resources/academicwordlist/sublist\n\n* http://www.uefap.com/vocab/select/awl.htm\n\n* http://www.englishvocabularyexercises.com/academic-word-list/\n\n---\n\n## DMI LMS Recommendation\n\nGrammar and vocabulary improvement is a long-term process. We encourage all students to complete the Grammar Diagnostic Test and regularly review grammar and vocabulary resources throughout their IELTS preparation journey.\n\nConsistent practice and error correction will help you develop the language accuracy required to achieve your target IELTS band score.\n"
           },
           {
             "id": "lec-2-s3",
-            "type": "lecture",
+            "type": "article",
             "label": "9",
             "title": "Vocabulary Levels Diagnostic Test",
             "duration_min": 1,
             "video_url": "",
-            "resources": [],
-            "completed": false
+            "resources": [
+              {
+                "title": "Academic words list",
+                "url": "https://drive.google.com/file/d/1nLRwF_svKM9h-NMbYF62SNpWBPgyymx-/view?usp=drive_link"
+              },
+              {
+                "title": "IELTS+and+TOEFL.Synonyms.List",
+                "url": "https://drive.google.com/file/d/139fudgUGkYLpqbMSMbR0ECE-2KYErGVB/view?usp=drive_link"
+              },
+              {
+                "title": "subject-specific-vocabulary",
+                "url": "https://drive.google.com/file/d/1u1nEDooGrZeTTTJgw1Mo-94BQqGxrLxM/view?usp=drive_link"
+              },
+              {
+                "title": "Synonyms.Vocabulary.Lists+(1)",
+                "url": "https://drive.google.com/file/d/1E_fCaeBxi2YanoO_Y8tTnJ4KvSlq1eHt/view?usp=drive_link"
+              },
+              {
+                "title": "1000-english-collocations-ebook",
+                "url": "https://drive.google.com/file/d/1Fu9Phxt8tUyxWEaGkBLmziQPCDX8jOPq/view?usp=drive_link"
+              },
+              {
+                "title": "TOEFL.IELTS.SYNONYMS.LIST",
+                "url": "https://drive.google.com/file/d/1YVEBy6Q8y49ZUK8T3YL3aZH3f4Pod6nI/view?usp=drive_link"
+              },
+              {
+                "title": "Academic_Collocation_List",
+                "url": "https://drive.google.com/file/d/1rrLNio1dX9e3sEAH83udIQmpidxRRkP7/view?usp=drive_link"
+              }
+            ],
+            "completed": false,
+            "description": "",
+            "article_body": "# Vocabulary Levels Diagnostic Test\n\nA strong vocabulary is one of the most important factors in achieving a high IELTS band score. Your ability to understand academic English and use a wide range of vocabulary directly affects your performance in the Reading, Writing, Listening, and Speaking sections of the IELTS exam.\n\nBefore beginning your IELTS preparation, it is recommended that you determine your current vocabulary level. This will help you identify your strengths, weaknesses, and the areas that require improvement.\n\n## English Vocabulary Levels\n\n### A1–A2: Beginner to Elementary\n\nStudents at this level can understand and use basic everyday vocabulary and simple expressions.\n\n### B1–B2: Intermediate to Upper-Intermediate\n\nStudents at this level can communicate effectively in most everyday and academic situations.\n\n**Approximate IELTS Equivalent:** Band 4.5 – 6.5\n\n### C1–C2: Advanced to Proficient\n\nStudents at this level can understand complex texts, communicate fluently, and use sophisticated vocabulary accurately.\n\n**Approximate IELTS Equivalent:** Band 7.0 – 9.0\n\n---\n\n# Recommended Vocabulary Level Test\n\nComplete the Oxford Online English Vocabulary Level Test to assess your current vocabulary knowledge.\n\n### Oxford English Vocabulary Level Test\n\nhttps://www.oxfordonlineenglish.com/english-level-test/vocabulary\n\n### Instructions\n\n1. Open the test link.\n2. Complete all 40 questions.\n3. Review your results.\n4. Record your level and use it as a benchmark for improvement throughout your IELTS preparation.\n\n---\n\n# Additional Vocabulary Assessment Tests\n\nYou may also use the following free vocabulary diagnostic tools:\n\n### English Current Vocabulary Test\n\nhttps://www.englishcurrent.com/english-vocabulary-test/\n\n*Scroll to the bottom of the page and select the appropriate level test.*\n\n### Preply Vocabulary Test\n\nhttps://preply.com/en/learn/english/test-your-vocab\n\n### Vocabulary Size Test\n\nhttps://my.vocabularysize.com/\n\n---\n\n# Building Your Vocabulary\n\nAfter identifying your current vocabulary level, begin expanding your vocabulary through regular study and practice.\n\n### Vocabulary Learning Resource\n\nhttps://langeek.co/en/vocab/level-based\n\nThis resource provides vocabulary organized by English proficiency levels, allowing you to learn progressively from beginner to advanced levels.\n\n---\n\n# DMI LMS Recommendation\n\nStudents aiming for:\n\n* **IELTS Band 5–6** should focus on developing a strong B1–B2 vocabulary range.\n* **IELTS Band 7+** should aim to build a solid C1-level vocabulary.\n* **IELTS Band 8–9** candidates should continue expanding their vocabulary while learning to use advanced words naturally and accurately.\n\nRemember, IELTS examiners assess not only the number of words you know but also your ability to use vocabulary correctly, appropriately, and naturally in context.\n\nConsistent vocabulary development is one of the most effective ways to improve your overall IELTS performance.\n"
           },
           {
             "id": "lec-3-s3",
@@ -328,8 +393,15 @@ window.SEED_COURSES = [
             "title": "Information on Grammar and Vocabulary IELTS Sources",
             "duration_min": 1,
             "video_url": "",
-            "resources": [],
-            "completed": false
+            "resources": [
+              {
+                "title": "Links+to+Grammar+and+Vocabulary+Books+for+IELTS",
+                "url": "https://drive.google.com/file/d/15dLSsdOab2kzZvU4Avb1Ce2909ezQy07/view?usp=drive_link"
+              }
+            ],
+            "completed": false,
+            "description": "",
+            "article_body": ""
           },
           {
             "id": "lec-4-s3",
@@ -366,8 +438,19 @@ window.SEED_COURSES = [
             "title": "IELTS Listening General Information",
             "duration_min": 7,
             "video_url": "",
-            "resources": [],
-            "completed": false
+            "resources": [
+              {
+                "title": "Avoid+these+Answer+Sheet+Mistakes",
+                "url": "https://drive.google.com/file/d/18z5mMHxuqsBLnLN_ck5A4TQ9e0vOdoP_/view?usp=drive_link"
+              },
+              {
+                "title": "Debunking+9+myths+of+the+IELTS+Listening+test",
+                "url": "https://drive.google.com/file/d/1SlTfAldj51BFr2eIKQyCCDUxOaN-h9KM/view?usp=drive_link"
+              }
+            ],
+            "completed": false,
+            "description": "",
+            "article_body": ""
           },
           {
             "id": "lec-2-s4",
@@ -386,8 +469,15 @@ window.SEED_COURSES = [
             "title": "IELTS Listening Tips for a Higher Band Score",
             "duration_min": 6,
             "video_url": "",
-            "resources": [],
-            "completed": false
+            "resources": [
+              {
+                "title": "Lectures+and+Conversations+to+Improve+Listening (1)",
+                "url": "https://drive.google.com/file/d/1AIxbMi8GcEvEGG3JFrwmw2TFk9-65j6G/view?usp=drive_link"
+              }
+            ],
+            "completed": false,
+            "description": "",
+            "article_body": ""
           },
           {
             "id": "lec-4-s4",
@@ -406,8 +496,23 @@ window.SEED_COURSES = [
             "title": "IELTS Spelling List",
             "duration_min": 1,
             "video_url": "",
-            "resources": [],
-            "completed": false
+            "resources": [
+              {
+                "title": "IELTS+Listening+Spelling+List",
+                "url": "https://drive.google.com/file/d/1H6pYhElGCgh-V6AbZ2vx1FieXSzNjG6u/view?usp=drive_link"
+              },
+              {
+                "title": "The_1200_most_commonly_repeated_words_in",
+                "url": "https://drive.google.com/file/d/1BukXbffJ5lQNW9l5RrR-zF5xanuf1SIg/view?usp=drive_link"
+              },
+              {
+                "title": "",
+                "url": ""
+              }
+            ],
+            "completed": false,
+            "description": "",
+            "article_body": ""
           }
         ]
       },
@@ -425,7 +530,9 @@ window.SEED_COURSES = [
             "duration_min": 1,
             "video_url": "",
             "resources": [],
-            "completed": false
+            "completed": false,
+            "description": "",
+            "article_body": ""
           },
           {
             "id": "lec-2-s5",
