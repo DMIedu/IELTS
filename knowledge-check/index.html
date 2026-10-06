@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<title>DMI IELTS Knowledge Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: an exam booklet — sticky progress strip, six numbered paper sections, a marked score sheet on submit */
+:root{
+  --bg:#f3f5f9; --paper:#ffffff; --ink:#16203a; --muted:#5b6680; --line:#d9deea;
+  --accent:#1d4ed8; --accent-soft:#e3eafc; --ok:#137a46; --ok-soft:#e2f4ea; --bad:#c62f2f; --bad-soft:#fbe6e6; --warn:#a15c00; --warn-soft:#fdf0db;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Source Sans 3",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1424; --paper:#151d31; --ink:#e7ebf5; --muted:#9aa5bf; --line:#28324b;
+  --accent:#7aa2ff; --accent-soft:#1d2a4d; --ok:#4fd08d; --ok-soft:#123426; --bad:#ff7d7d; --bad-soft:#3a1b1f; --warn:#f2b45a; --warn-soft:#3a2a12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1424; --paper:#151d31; --ink:#e7ebf5; --muted:#9aa5bf; --line:#28324b;
+  --accent:#7aa2ff; --accent-soft:#1d2a4d; --ok:#4fd08d; --ok-soft:#123426; --bad:#ff7d7d; --bad-soft:#3a1b1f; --warn:#f2b45a; --warn-soft:#3a2a12; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:20px 80px;display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+h1{font-size:clamp(1.8rem,6vw,2.6rem);font-weight:800;line-height:1.05;letter-spacing:-.01em}
+.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.lede{color:var(--muted);margin:8px 0 0;max-width:60ch}
+.paper{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px}
+.details{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.details label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.9rem;min-width:0}
+.details .full{grid-column:1/-1}
+input,select{font:inherit;font-size:1rem;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible,.opt:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.fact{font-family:var(--mono);font-size:.75rem;padding:4px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent)}
+.strip{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);margin-inline:-16px;padding-inline:16px}
+.strip-row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.strip-row::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font:600 .85rem var(--body);border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+.chip .n{font-family:var(--mono);font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.chip.done{border-color:var(--accent)}
+.chip.done .n{color:var(--accent)}
+.bar{height:4px;background:var(--line);border-radius:2px;margin-top:10px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.sec-head{display:flex;gap:14px;align-items:baseline;padding-bottom:12px;border-bottom:2px solid var(--ink);margin-bottom:6px}
+.sec-num{font-family:var(--display);font-weight:800;font-size:2.2rem;line-height:1;color:var(--accent)}
+.sec-head h2{font-size:1.4rem}
+.sec-head p{margin:2px 0 0;color:var(--muted);font-size:.92rem}
+.q{padding-block:16px;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:0}
+.q-text{font-weight:600;margin:0 0 10px;display:flex;gap:10px}
+.q-no{font-family:var(--mono);font-size:.8rem;color:var(--muted);padding-top:3px;min-width:2.2em;font-variant-numeric:tabular-nums}
+.opts{display:flex;flex-direction:column;gap:6px;padding-left:calc(2.2em + 10px)}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:var(--paper)}
+.opt:hover{border-color:var(--accent)}
+.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.letter{flex:0 0 auto;width:1.6em;height:1.6em;border-radius:50%;border:1.5px solid var(--muted);display:grid;place-items:center;font:600 .78rem var(--mono);color:var(--muted)}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .letter{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.marked .opt{cursor:default}
+.marked .opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.marked .opt.right .letter{background:var(--ok);border-color:var(--ok);color:var(--paper)}
+.marked .opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.marked .opt.wrong .letter{background:var(--bad);border-color:var(--bad);color:var(--paper)}
+.why{margin:8px 0 0 calc(2.2em + 10px);font-size:.92rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+.why b{color:var(--ink)}
+.submit-area{display:flex;flex-direction:column;gap:12px}
+.btn{font:700 1rem var(--body);padding:13px 20px;border-radius:8px;border:0;background:var(--accent);color:var(--paper);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.notice{padding:12px 14px;border-radius:8px;background:var(--warn-soft);color:var(--warn);font-weight:600}
+.notice .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.result{border:2px solid var(--ink)}
+.score{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-top:6px}
+.score big{font-family:var(--display);font-weight:800;font-size:3.4rem;line-height:1;font-variant-numeric:tabular-nums}
+.score span{color:var(--muted);font-weight:600}
+.verdict{margin:6px 0 14px;font-weight:600}
+.rows{display:flex;flex-direction:column;gap:10px}
+.row-s{display:grid;grid-template-columns:7.5em 1fr 3.6em;gap:10px;align-items:center;font-size:.92rem}
+.row-s .t{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.row-s .t i{display:block;height:100%}
+.row-s .v{font-family:var(--mono);font-size:.8rem;text-align:right;font-variant-numeric:tabular-nums}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.copy-box{width:100%;font-family:var(--mono);font-size:.78rem;min-height:9em;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-top:10px}
+.small{font-size:.85rem;color:var(--muted)}
+.err{color:var(--bad);font-size:.85rem;font-weight:600}
+.brand{display:flex;gap:14px;align-items:center;background:#1d4ed8;color:#ffffff;border-radius:10px;padding:14px 16px}
+.logo{flex:0 0 auto;width:92px;height:auto;border-radius:6px;background:#ffffff;display:block}
+.brand-name{font:800 1.15rem var(--display);letter-spacing:.01em}
+.brand-sub{font-size:.82rem;opacity:.9}
+.foot{border-top:2px solid var(--ink);padding-top:16px;display:flex;flex-direction:column;gap:12px}
+.foot .brand-name{color:var(--ink)}
+.branches{display:flex;flex-wrap:wrap;gap:6px}
+.branches span{font-size:.82rem;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.tagline{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+@media (max-width:520px){.details{grid-template-columns:1fr}.opts,.why{padding-left:0;margin-left:0}.row-s{grid-template-columns:6.2em 1fr 3.2em}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="wrap">
+  <div class="brand">
+    <img class="logo" src="data:image/jpeg;base64,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" alt="DMI Computer Education logo" width="92" height="64">
+    <div class="brand-text">
+      <div class="brand-name">DMI Computer Education</div>
+      <div class="brand-sub">Vocational &amp; Skills Development Training Organisation</div>
+    </div>
+  </div>
+  <header>
+    <div class="eyebrow">IELTS Department</div>
+    <h1>IELTS Knowledge Check</h1>
+    <p class="lede">How well do you know the IELTS test? Answer every question about the test format, computer-delivered IELTS, and the four skills. Your score and the correct answers appear when you submit.</p>
+    <div class="facts"><span class="fact">MCQ</span><span class="fact" id="totalFact"></span><span class="fact">~25 min</span><span class="fact">1 mark each</span></div>
+  </header>
+
+  <section class="paper" aria-label="Student details">
+    <div class="details">
+      <label class="full" for="sname">Full name
+        <input id="sname" autocomplete="name" placeholder="e.g. Kavya Sivakumar">
+      </label>
+      <label for="branch">Branch
+        <select id="branch">
+          <option value="">Choose branch</option>
+          <option>Jaffna</option><option>Nelliady</option><option>Chavakachcheri</option>
+          <option>Chunnakam</option><option>Kilinochchi</option><option>Sandilipay</option>
+        </select>
+      </label>
+      <label for="batch">Batch / class (optional)
+        <input id="batch" placeholder="e.g. IELTS Oct batch">
+      </label>
+    </div>
+    <div class="err" id="detailsErr" hidden>Please enter your name and choose your branch before submitting.</div>
+  </section>
+
+  <div class="strip">
+    <div class="strip-row" id="chips"></div>
+    <div class="bar"><i id="progress"></i></div>
+  </div>
+
+  <section class="paper result" id="result" hidden aria-live="polite"></section>
+
+  <main id="quiz" style="display:flex;flex-direction:column;gap:20px"></main>
+
+  <div class="submit-area" id="submitArea">
+    <div class="notice" id="unansweredNote" hidden></div>
+    <button class="btn" id="submitBtn" type="button">Submit paper</button>
+    <p class="small">You can change answers any time before you submit.</p>
+  </div>
+
+  <footer class="foot">
+    <div class="foot-head">
+      <div class="brand-name">DMI Computer Education</div>
+      <div class="small">Head office: No.113, Kannathiddy Road, Jaffna, Sri Lanka</div>
+      <div class="small">Tel 021 222 4403 · dmi.ite@gmail.com · www.dmi.lk</div>
+    </div>
+    <div class="branches">
+      <span>Jaffna</span><span>Nelliady</span><span>Chavakachcheri</span><span>Chunnakam</span><span>Kilinochchi</span><span>Sandilipay</span>
+    </div>
+    <div class="tagline">Quality Education Creates Bright Future</div>
+  </footer>
+</div>
+
+<script>
+// Each question: [question, correct answer, wrong, wrong, wrong, explanation]. Options are shuffled for display.
+const SECTIONS = [
+ {id:"format", name:"Test format", sub:"The whole IELTS test: types, timing, scores", qs:[
+  ["Which four skills does IELTS test?","Listening, Reading, Writing, Speaking","Listening, Reading, Grammar, Speaking","Reading, Writing, Vocabulary, Speaking","Listening, Writing, Speaking, Translation","IELTS has four papers: Listening, Reading, Writing and Speaking. Grammar and vocabulary are marked inside Writing and Speaking."],
+  ["What are the two main types of IELTS?","Academic and General Training","Academic and Business","General and Advanced","Paper and Online","IELTS Academic and IELTS General Training. Both can be taken on paper or on computer."],
+  ["Which two papers are the SAME for Academic and General Training?","Listening and Speaking","Reading and Writing","Writing and Speaking","Listening and Reading","Listening and Speaking are identical. Reading and Writing are different for Academic and General Training."],
+  ["About how long is the full IELTS test?","2 hours 45 minutes","1 hour 30 minutes","3 hours 30 minutes","4 hours","Listening ~30 min + Reading 60 min + Writing 60 min + Speaking 11–14 min ≈ 2 h 45 min."],
+  ["In what order are Listening, Reading and Writing taken?","Listening, Reading, Writing, with no break between them","Writing, Reading, Listening","Reading, Listening, Writing","Any order the student chooses","Listening, Reading and Writing are taken one after another on the same day, with no break."],
+  ["When can the Speaking test be taken?","On the same day, or up to 7 days before or after the other papers","Only on the same day","One month after the written test","Before you register","The test centre may schedule Speaking on the same day or within 7 days before or after the other papers."],
+  ["What is the IELTS band scale?","0 to 9","0 to 100","1 to 10","A to F","Each skill and the overall score are reported on a 0–9 band scale, in half bands (e.g. 6.5)."],
+  ["A student scores Listening 6.5, Reading 6.0, Writing 6.0, Speaking 7.0. What is the overall band?","6.5","6.0","6.25","7.0","(6.5 + 6.0 + 6.0 + 7.0) ÷ 4 = 6.375. An average ending in .375 is rounded up to the nearest half band, 6.5."],
+  ["The average of the four skills is 6.125. What overall band is reported?","6.0","6.5","6.25","7.0","Averages below .25 round down to the whole band. .25 rounds up to .5, and .75 rounds up to the next whole band."],
+  ["A student wants to do a degree at a university abroad. Which IELTS should they usually take?","Academic","General Training","Life Skills","Either one, it never matters","Universities and professional registration bodies normally ask for IELTS Academic."],
+  ["IELTS General Training is mostly used for…","Migration, work and non-degree training","University degrees only","School entrance exams","Teaching licences","General Training is used for migration (e.g. Canada, Australia, NZ), work experience and training programmes."],
+  ["For how long do most organisations accept an IELTS result?","2 years","6 months","5 years","For life","Most universities and immigration bodies accept results up to 2 years old."],
+  ["What ID must you bring on test day?","The same passport or ID you used when you registered","Any photo ID","Your school ID card","No ID is needed","Your ID is checked against your registration. It must be the same document, and valid."]
+ ]},
+ {id:"cd", name:"Computer IELTS", sub:"How computer-delivered IELTS works", qs:[
+  ["In computer-delivered IELTS, how is the Speaking test done?","Face-to-face with a real examiner","Recorded into the computer microphone","Typed answers in a chat box","By phone call","Speaking is the same in paper and computer IELTS: a live, face-to-face interview with an examiner."],
+  ["Compared to paper IELTS, the computer test's questions and difficulty are…","The same content, format and level","Easier","Harder","Completely different question types","Only the way you answer changes. The questions, timing and marking are the same."],
+  ["After the Listening audio ends on computer, how much time do you get to check answers?","2 minutes","10 minutes","No time at all","5 minutes","On computer you type answers directly, so there is only 2 minutes to review. Paper-based gives 10 minutes to transfer answers."],
+  ["In computer-delivered Writing, what helps you check the length of your answer?","An automatic word count on screen","The examiner tells you","A printed ruler","Nothing; you must count by hand","The screen shows your word count as you type."],
+  ["In computer-delivered Reading, what can you do with the passage?","Highlight words and add notes on screen","Print the passage","Search the internet","Ask the invigilator for meanings","You can highlight text and make notes on the screen, like underlining on paper."],
+  ["You are not sure of an answer on computer. What can you do?","Mark it for review and come back to it before time ends","Nothing; answers lock after you click","Restart the section","Skip it and lose the whole section","You can flag a question for review and move freely between questions until time runs out."],
+  ["Does spelling matter when you type answers on computer?","Yes, a wrong spelling makes the answer wrong","No, spelling is auto-corrected","Only in Writing","Only capital letters matter","There is no spell-check. Misspelled answers in Listening and Reading are marked wrong."],
+  ["How is time shown during the computer test?","A countdown timer on screen","The invigilator calls out time","There is no timer","A clock you must bring","A timer on screen shows how much time is left in each paper."],
+  ["How fast do computer-delivered results usually come?","Within a few days, much faster than paper","Exactly 13 days, same as paper","After one month","Within the same hour","Computer results usually arrive within a few days. Paper-based results take about 13 days."],
+  ["What is IELTS One Skill Retake (at centres that offer it)?","Retaking one skill only, within 60 days of the computer test","Retaking the whole test free","Asking an examiner to re-mark one paper","Taking Speaking twice on one day","After a computer-delivered test, some centres let you retake one skill within 60 days instead of the full test."]
+ ]},
+ {id:"lis", name:"Listening", sub:"4 parts · 40 questions · about 30 minutes", qs:[
+  ["How many parts and questions are in IELTS Listening?","4 parts, 40 questions","3 parts, 30 questions","4 parts, 60 questions","2 parts, 40 questions","Listening has 4 parts with 10 questions each, 40 in total."],
+  ["How long is the Listening test?","About 30 minutes","About 60 minutes","15 minutes","2 hours","The recording is about 30 minutes, plus time to transfer (paper) or check (computer) answers."],
+  ["How many times is the recording played?","Once only","Twice","Three times","As many times as you want","You hear each recording once only, so read questions ahead and listen carefully."],
+  ["What is Listening Part 1?","A conversation between two people in an everyday situation, e.g. booking a hotel","A university lecture","A group of students discussing an assignment","A news report","Part 1 is an everyday social conversation, often about bookings, enquiries or forms."],
+  ["What is Listening Part 2?","One speaker talking about an everyday topic, e.g. a tour or local facilities","Two friends chatting","A lecture on science","A job interview","Part 2 is a monologue in an everyday social context."],
+  ["What is Listening Part 3?","A conversation of up to four people in an education or training context","One speaker giving a lecture","A phone booking","A radio advert","Part 3 is usually students and/or a tutor discussing an assignment or course."],
+  ["What is Listening Part 4?","A monologue on an academic subject, like a lecture","A conversation between two people","A group discussion","An interview","Part 4 is one speaker on an academic topic. It is usually the hardest part."],
+  ["Instruction: \"Write NO MORE THAN TWO WORDS AND/OR A NUMBER.\" The student writes \"the old library hall\". What happens?","It is marked wrong because it has too many words","It is correct if the meaning is right","It gets half a mark","It is correct if spelled correctly","Breaking the word limit makes the answer wrong, even if the meaning is right."],
+  ["In the paper-based test, how long do you get to transfer Listening answers to the answer sheet?","10 minutes","2 minutes","No time","30 minutes","Paper-based Listening gives 10 minutes at the end to transfer answers."],
+  ["What accents will you hear in IELTS Listening?","A range, such as British, Australian, New Zealand, American and Canadian","Only British","Only American","Only Indian and Sri Lankan","IELTS uses a variety of English accents."],
+  ["What should you do in the time given before each part?","Read the questions and predict the type of answer","Close your eyes and relax","Start writing answers from memory","Check the previous part's spelling only","Use the reading time to underline key words and predict answers (a number, a name, a place)."],
+  ["About how many correct Listening answers out of 40 give band 7.0?","About 30","About 20","About 36","39","Around 30 out of 40 usually converts to band 7.0. The exact conversion can vary slightly by test."]
+ ]},
+ {id:"rd", name:"Reading", sub:"3 sections · 40 questions · 60 minutes", qs:[
+  ["How long is the Reading test?","60 minutes","30 minutes","90 minutes","45 minutes","Reading is 60 minutes for both Academic and General Training."],
+  ["In paper-based Reading, do you get extra time to transfer answers?","No, you must write answers on the answer sheet within the 60 minutes","Yes, 10 minutes","Yes, 2 minutes","Yes, 5 minutes","Unlike Listening, there is no extra transfer time in Reading."],
+  ["How many questions are in the Reading test?","40","30","50","60","There are 40 questions. Each correct answer is one mark."],
+  ["What does Academic Reading contain?","3 long passages from books, journals, magazines and newspapers","10 short notices","One passage only","Letters and emails","Academic Reading has three long, academic-style texts."],
+  ["What does General Training Reading contain?","Everyday texts, work-related texts, and one longer general-interest text","Three academic research papers","Only advertisements","Only newspaper articles","GT Reading moves from short everyday texts (notices, ads) to work texts, then one longer text."],
+  ["TRUE / FALSE / NOT GIVEN questions test…","Factual information in the passage","The writer's opinions","Your own opinion","Grammar","TRUE/FALSE/NOT GIVEN checks facts. YES/NO/NOT GIVEN checks the writer's views or claims."],
+  ["YES / NO / NOT GIVEN questions test…","The writer's views or claims","Facts and numbers only","Spelling","Your personal experience","YES/NO/NOT GIVEN asks whether a statement agrees with what the writer thinks."],
+  ["What does \"NOT GIVEN\" mean?","The passage has no information about it","The statement is false","The statement is partly true","The question is a trick and has no mark","Choose NOT GIVEN when the text neither confirms nor contradicts the statement."],
+  ["What is skimming?","Reading quickly to get the general idea","Reading every word slowly","Looking for one specific number or name","Translating into Tamil","Skimming = quick reading for the main idea. Useful for matching headings."],
+  ["What is scanning?","Searching quickly for specific words, names or numbers","Reading for the general idea","Reading aloud","Reading the passage twice","Scanning = moving your eyes quickly to find a particular detail."],
+  ["Which question type usually does NOT follow the order of the passage?","Matching information (which paragraph contains…)","TRUE / FALSE / NOT GIVEN","Sentence completion","Short-answer questions","Most question types follow the text order, but matching information and matching headings do not."],
+  ["For the same band score, General Training Reading needs…","More correct answers than Academic","Fewer correct answers than Academic","Exactly the same number","No correct answers","GT texts are easier, so you need more correct answers in GT to get the same band."]
+ ]},
+ {id:"wr", name:"Writing", sub:"2 tasks · 60 minutes", qs:[
+  ["How long is the Writing test and how many tasks?","60 minutes, 2 tasks","60 minutes, 3 tasks","40 minutes, 2 tasks","90 minutes, 1 task","Writing has Task 1 and Task 2 in 60 minutes."],
+  ["What is Academic Writing Task 1?","Describe visual information: a graph, table, chart, diagram, map or process","Write a letter","Write an essay giving your opinion","Write a story","Academic Task 1 asks you to summarise and compare the main features of a visual."],
+  ["What is General Training Writing Task 1?","Write a letter","Describe a graph","Write a report on a process","Write a story","GT Task 1 is a letter: formal, semi-formal or informal."],
+  ["Minimum words for Task 1?","150 words","100 words","250 words","200 words","Task 1 needs at least 150 words."],
+  ["Minimum words for Task 2?","250 words","150 words","300 words","400 words","Task 2 needs at least 250 words."],
+  ["How should you divide your time?","About 20 minutes on Task 1 and 40 minutes on Task 2","30 minutes each","40 minutes on Task 1 and 20 on Task 2","Finish Task 2 in 10 minutes","Task 2 is longer and worth more, so give it about 40 minutes."],
+  ["Which task carries more marks?","Task 2 counts twice as much as Task 1","Task 1 counts more","Both are equal","Only Task 2 is marked","Task 2 carries double the weight of Task 1 in the Writing band."],
+  ["What are the four Writing marking criteria?","Task Achievement/Response, Coherence and Cohesion, Lexical Resource, Grammatical Range and Accuracy","Spelling, Handwriting, Length, Speed","Ideas, Grammar, Spelling, Neatness","Fluency, Pronunciation, Vocabulary, Grammar","Each criterion is 25% of the Writing score for each task."],
+  ["What happens if you write fewer than the minimum words?","You lose marks","Nothing, length does not matter","Your paper is cancelled","You get extra time","Under-length answers are penalised under Task Achievement/Response."],
+  ["What must a good Academic Task 1 answer include?","A clear overview of the main trends or features","Your personal opinion","Recommendations for the future","Reasons why the data changed, from your own knowledge","An overview is essential. Do not give opinions or add information not shown in the visual."],
+  ["What is Writing Task 2?","An essay responding to a point of view, argument or problem","A letter of complaint","A description of a chart","A summary of a reading passage","Task 2 is an essay for both Academic and GT. Common types: opinion, discuss both views, problem–solution, advantages–disadvantages."],
+  ["Can you answer in bullet points or notes?","No, write in full sentences and paragraphs","Yes, for Task 1 only","Yes, it saves time","Yes, if the examiner allows","Bullet points and notes are penalised. Use paragraphs and full sentences."],
+  ["What happens with a memorised essay that does not match the question?","It is penalised; the answer must address the exact question","It gets full marks if the grammar is good","It is accepted as long as it is 250 words","Examiners cannot tell","Off-topic or memorised text loses marks and memorised parts may not be counted."]
+ ]},
+ {id:"sp", name:"Speaking", sub:"3 parts · 11–14 minutes · face-to-face", qs:[
+  ["How long is the Speaking test?","11–14 minutes","5 minutes","30 minutes","1 hour","Speaking lasts 11–14 minutes in total."],
+  ["How many parts are in the Speaking test?","3","2","4","5","Part 1 Interview, Part 2 Long turn, Part 3 Discussion."],
+  ["Who conducts the Speaking test?","A certified examiner, face-to-face, and it is recorded","A computer program","Your class teacher","Another candidate","A trained IELTS examiner talks with you one-to-one. The test is recorded."],
+  ["What happens in Part 1?","Introduction and interview about familiar topics like home, work, studies and hobbies","A two-minute talk from a cue card","A debate on abstract issues","Reading a passage aloud","Part 1 is general questions about you and everyday topics."],
+  ["How long is Part 1?","4–5 minutes","1 minute","10 minutes","2 minutes","Part 1 lasts about 4–5 minutes."],
+  ["What is Part 2 called?","The long turn (cue card)","The interview","The discussion","The role play","In Part 2 you get a task card and speak on a topic by yourself."],
+  ["How much preparation time do you get in Part 2?","1 minute","No time","3 minutes","5 minutes","You get 1 minute to prepare."],
+  ["How long should you speak in Part 2?","1 to 2 minutes; the examiner stops you at 2 minutes","30 seconds","5 minutes","Until you finish all your ideas","Aim to keep talking for the full 2 minutes. The examiner will stop you."],
+  ["Can you make notes during the Part 2 preparation?","Yes, you are given paper and a pencil","No, notes are not allowed","Only on your phone","Only in Tamil","You may make notes on the paper given and look at them while you speak."],
+  ["What happens in Part 3?","A discussion of more abstract ideas linked to the Part 2 topic, 4–5 minutes","Questions about your family","Another cue card","Reading aloud","Part 3 asks deeper, more general questions related to the Part 2 topic."],
+  ["What are the four Speaking marking criteria?","Fluency and Coherence, Lexical Resource, Grammatical Range and Accuracy, Pronunciation","Confidence, Dress, Eye contact, Speed","Ideas, Spelling, Grammar, Handwriting","Accent, Volume, Speed, Vocabulary","Each criterion is 25% of the Speaking band."],
+  ["Will you lose marks for having a Sri Lankan accent?","No, accent is fine as long as you are easy to understand","Yes, only British accent gets high marks","Yes, only American accent is accepted","Accent is 50% of the score","Pronunciation is about being clear and using features like stress and intonation, not about a particular accent."],
+  ["You did not understand the examiner's question. What can you do?","Ask the examiner to repeat it (or in Part 3, to explain it)","Stay silent until the next question","Answer a different question","Leave the room","Asking for repetition is allowed and is better than guessing."],
+  ["In Part 1 the examiner asks, \"Do you like reading?\" What is the best answer style?","Answer and extend with a reason or example","Just say \"Yes.\"","Give a 3-minute speech","Say \"I don't know.\"","Give a direct answer plus a reason or example, in 2–3 sentences."]
+ ]}
+];
+
+// Deterministic shuffle so a question's options appear in the same order every time.
+function seeded(n){let s=n*9301+49297;return()=>{s=(s*9301+49297)%233280;return s/233280}}
+const LETTERS="ABCD";
+let qIndex=0;
+SECTIONS.forEach((sec,si)=>{
+  sec.items=sec.qs.map((q,qi)=>{
+    const rnd=seeded(si*100+qi+7);
+    const opts=[0,1,2,3];
+    for(let i=3;i>0;i--){const j=Math.floor(rnd()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]]}
+    return {id:sec.id+"-"+qi,num:++qIndex,text:q[0],options:opts.map(k=>q[1+k]),correct:opts.indexOf(0),why:q[5]};
+  });
+});
+const TOTAL=qIndex;
+document.getElementById("totalFact").textContent=TOTAL+" questions";
+
+const answers={};
+let submitted=false;
+const quiz=document.getElementById("quiz");
+const chips=document.getElementById("chips");
+
+SECTIONS.forEach((sec,si)=>{
+  const el=document.createElement("section");
+  el.className="paper";el.id="sec-"+sec.id;
+  el.innerHTML=`<div class="sec-head"><div class="sec-num">${si+1}</div><div><h2></h2><p></p></div></div>`;
+  el.querySelector("h2").textContent=sec.name;
+  el.querySelector("p").textContent=sec.sub;
+  sec.items.forEach(it=>{
+    const q=document.createElement("div");q.className="q";q.id="q-"+it.id;
+    const qt=document.createElement("p");qt.className="q-text";
+    qt.innerHTML=`<span class="q-no">${String(it.num).padStart(2,"0")}</span><span></span>`;
+    qt.lastChild.textContent=it.text;
+    const os=document.createElement("div");os.className="opts";os.setAttribute("role","radiogroup");
+    it.options.forEach((o,oi)=>{
+      const lab=document.createElement("label");lab.className="opt";
+      lab.innerHTML=`<input type="radio" name="${it.id}" id="${it.id}-${oi}" value="${oi}"><span class="letter">${LETTERS[oi]}</span><span></span>`;
+      lab.lastChild.textContent=o;
+      lab.querySelector("input").addEventListener("change",()=>{
+        if(submitted)return;
+        answers[it.id]=oi;
+        os.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel"));
+        lab.classList.add("sel");
+        updateProgress();
+      });
+      os.appendChild(lab);
+    });
+    q.append(qt,os);el.appendChild(q);
+  });
+  quiz.appendChild(el);
+  const c=document.createElement("button");c.type="button";c.className="chip";c.id="chip-"+sec.id;
+  c.innerHTML=`<span></span><span class="n"></span>`;c.firstChild.textContent=sec.name;
+  c.addEventListener("click",()=>{
+    const target=document.getElementById("sec-"+sec.id);
+    const y=target.getBoundingClientRect().top+window.scrollY-70;
+    window.scrollTo({top:y,behavior:"smooth"});
+  });
+  chips.appendChild(c);
+});
+
+function updateProgress(){
+  let done=0;
+  SECTIONS.forEach(sec=>{
+    const n=sec.items.filter(it=>answers[it.id]!==undefined).length;done+=n;
+    const c=document.getElementById("chip-"+sec.id);
+    c.querySelector(".n").textContent=n+"/"+sec.items.length;
+    c.classList.toggle("done",n===sec.items.length);
+  });
+  document.getElementById("progress").style.width=(done/TOTAL*100)+"%";
+  return done;
+}
+updateProgress();
+
+const note=document.getElementById("unansweredNote");
+document.getElementById("submitBtn").addEventListener("click",()=>trySubmit(false));
+
+function trySubmit(force){
+  const name=document.getElementById("sname").value.trim();
+  const branch=document.getElementById("branch").value;
+  const err=document.getElementById("detailsErr");
+  if(!name||!branch){err.hidden=false;document.getElementById(name?"branch":"sname").focus();return}
+  err.hidden=true;
+  const done=updateProgress();
+  if(done<TOTAL&&!force){
+    note.hidden=false;
+    note.innerHTML=`You have ${TOTAL-done} unanswered question${TOTAL-done>1?"s":""}. Unanswered questions get no mark.<div class="row"><button class="btn ghost" type="button" id="goFirst">Go to first unanswered</button><button class="btn" type="button" id="forceSubmit">Submit anyway</button></div>`;
+    document.getElementById("goFirst").onclick=()=>{
+      const first=SECTIONS.flatMap(s=>s.items).find(it=>answers[it.id]===undefined);
+      const t=document.getElementById("q-"+first.id);
+      window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-80,behavior:"smooth"});
+    };
+    document.getElementById("forceSubmit").onclick=()=>trySubmit(true);
+    return;
+  }
+  note.hidden=true;
+  mark(name,branch,document.getElementById("batch").value.trim());
+}
+
+function mark(name,branch,batch){
+  submitted=true;
+  let total=0;const per=[];
+  SECTIONS.forEach(sec=>{
+    let s=0;
+    sec.items.forEach(it=>{
+      const q=document.getElementById("q-"+it.id);
+      q.classList.add("marked");
+      q.querySelectorAll("input").forEach(i=>i.disabled=true);
+      const labs=q.querySelectorAll(".opt");
+      labs[it.correct].classList.add("right");
+      const a=answers[it.id];
+      if(a===it.correct)s++;else if(a!==undefined)labs[a].classList.add("wrong");
+      const why=document.createElement("p");why.className="why";
+      const res=a===it.correct?"Correct.":(a===undefined?"Not answered.":"Incorrect.");
+      why.innerHTML=`<b></b> `;why.firstChild.textContent=res+" Answer: "+LETTERS[it.correct]+".";
+      why.append(it.why);
+      q.appendChild(why);
+    });
+    total+=s;per.push({name:sec.name,s,n:sec.items.length});
+  });
+  const pct=Math.round(total/TOTAL*100);
+  const verdict=pct>=85?"Excellent. You know the IELTS test very well.":pct>=70?"Good. Review the questions you missed before your test.":pct>=50?"Fair. Go through the weak sections below with your teacher.":"Needs work. Ask your teacher for the IELTS format guide and try again.";
+  const r=document.getElementById("result");
+  const when=new Date().toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"});
+  r.hidden=false;
+  r.innerHTML=`<div class="eyebrow">Score sheet</div><h2 id="rName"></h2>
+    <div class="score"><big>${total}<span style="font-size:1.4rem;color:var(--muted)">/${TOTAL}</span></big><span>${pct}%</span></div>
+    <p class="verdict"></p><div class="rows" id="rows"></div>
+    <div class="actions"><button class="btn" type="button" id="copyBtn">Copy result to send</button><button class="btn ghost" type="button" id="reviewBtn">Review answers</button><button class="btn ghost" type="button" id="retryBtn">Try again</button></div>
+    <p class="small" id="copyMsg">Copy your result and send it to your DMI IELTS teacher on WhatsApp.</p>
+    <textarea class="copy-box" id="copyText" readonly hidden aria-label="Result text"></textarea>`;
+  r.querySelector("#rName").textContent=name+" · "+branch+(batch?" · "+batch:"");
+  r.querySelector(".verdict").textContent=verdict;
+  const rows=r.querySelector("#rows");
+  per.forEach(p=>{
+    const f=p.s/p.n;const col=f>=.75?"var(--ok)":f>=.5?"var(--warn)":"var(--bad)";
+    const d=document.createElement("div");d.className="row-s";
+    d.innerHTML=`<span></span><div class="t"><i style="width:${f*100}%;background:${col}"></i></div><span class="v">${p.s}/${p.n}</span>`;
+    d.firstChild.textContent=p.name;rows.appendChild(d);
+  });
+  const text=`DMI IELTS Knowledge Check\nName: ${name}\nBranch: ${branch}${batch?"\nBatch: "+batch:""}\nDate: ${when}\nScore: ${total}/${TOTAL} (${pct}%)\n`+per.map(p=>`- ${p.name}: ${p.s}/${p.n}`).join("\n");
+  const ta=r.querySelector("#copyText");ta.value=text;
+  r.querySelector("#copyBtn").onclick=()=>{
+    const msg=r.querySelector("#copyMsg");
+    const fallback=()=>{ta.hidden=false;ta.focus();ta.select();msg.textContent="Select the text below, copy it, and send it to your teacher on WhatsApp."};
+    try{navigator.clipboard.writeText(text).then(()=>{msg.textContent="Copied. Paste it into WhatsApp and send it to your DMI IELTS teacher."},fallback)}catch(e){fallback()}
+  };
+  r.querySelector("#reviewBtn").onclick=()=>{const t=document.getElementById("sec-format");window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-70,behavior:"smooth"})};
+  r.querySelector("#retryBtn").onclick=reset;
+  document.getElementById("submitArea").hidden=true;
+  window.scrollTo({top:r.getBoundingClientRect().top+window.scrollY-70,behavior:"smooth"});
+}
+
+function reset(){
+  submitted=false;
+  Object.keys(answers).forEach(k=>delete answers[k]);
+  document.querySelectorAll(".q").forEach(q=>{
+    q.classList.remove("marked");
+    q.querySelectorAll(".why").forEach(w=>w.remove());
+    q.querySelectorAll("input").forEach(i=>{i.disabled=false;i.checked=false});
+    q.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel","right","wrong"));
+  });
+  document.getElementById("result").hidden=true;
+  document.getElementById("submitArea").hidden=false;
+  updateProgress();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+
+</body>
+</html>
