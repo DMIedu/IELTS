@@ -87,6 +87,9 @@ input:focus-visible,select:focus-visible,button:focus-visible,.opt:focus-within{
 .row-s .v{font-family:var(--mono);font-size:.8rem;text-align:right;font-variant-numeric:tabular-nums}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 .copy-box{width:100%;font-family:var(--mono);font-size:.78rem;min-height:9em;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-top:10px}
+.send{margin:14px 0 0;font-weight:600;color:var(--muted)}
+.send.ok{color:var(--ok)}
+.send.bad{color:var(--bad)}
 .small{font-size:.85rem;color:var(--muted)}
 .err{color:var(--bad);font-size:.85rem;font-weight:600}
 .brand{display:flex;gap:14px;align-items:center;background:#1d4ed8;color:#ffffff;border-radius:10px;padding:14px 16px}
@@ -257,6 +260,7 @@ const SECTIONS = [
 
 // Deterministic shuffle so a question's options appear in the same order every time.
 function seeded(n){let s=n*9301+49297;return()=>{s=(s*9301+49297)%233280;return s/233280}}
+const RESULTS_URL="https://script.google.com/macros/s/AKfycbwLkFpHNFGyaKrFv0Lfji6y75OdX13L21l7Q3A81jYujsRSHYigDUgCfqxhcsBUfoKqag/exec";
 const LETTERS="ABCD";
 let qIndex=0;
 SECTIONS.forEach((sec,si)=>{
@@ -353,7 +357,7 @@ function trySubmit(force){
 
 function mark(name,branch,batch){
   submitted=true;
-  let total=0;const per=[];
+  let total=0;const per=[];const missed=[];
   SECTIONS.forEach(sec=>{
     let s=0;
     sec.items.forEach(it=>{
@@ -363,7 +367,7 @@ function mark(name,branch,batch){
       const labs=q.querySelectorAll(".opt");
       labs[it.correct].classList.add("right");
       const a=answers[it.id];
-      if(a===it.correct)s++;else if(a!==undefined)labs[a].classList.add("wrong");
+      if(a===it.correct)s++;else{missed.push(it.num);if(a!==undefined)labs[a].classList.add("wrong");}
       const why=document.createElement("p");why.className="why";
       const res=a===it.correct?"Correct.":(a===undefined?"Not answered.":"Incorrect.");
       why.innerHTML=`<b></b> `;why.firstChild.textContent=res+" Answer: "+LETTERS[it.correct]+".";
@@ -381,7 +385,8 @@ function mark(name,branch,batch){
     <div class="score"><big>${total}<span style="font-size:1.4rem;color:var(--muted)">/${TOTAL}</span></big><span>${pct}%</span></div>
     <p class="verdict"></p><div class="rows" id="rows"></div>
     <div class="actions"><button class="btn" type="button" id="copyBtn">Copy result to send</button><button class="btn ghost" type="button" id="reviewBtn">Review answers</button><button class="btn ghost" type="button" id="retryBtn">Try again</button></div>
-    <p class="small" id="copyMsg">Copy your result and send it to your DMI IELTS teacher on WhatsApp.</p>
+    <p class="send" id="sendStatus">Sending your result to DMI…</p>
+    <p class="small" id="copyMsg">You can also copy your result and send it to your DMI IELTS teacher on WhatsApp.</p>
     <textarea class="copy-box" id="copyText" readonly hidden aria-label="Result text"></textarea>`;
   r.querySelector("#rName").textContent=name+" · "+branch+(batch?" · "+batch:"");
   r.querySelector(".verdict").textContent=verdict;
@@ -399,6 +404,13 @@ function mark(name,branch,batch){
     const fallback=()=>{ta.hidden=false;ta.focus();ta.select();msg.textContent="Select the text below, copy it, and send it to your teacher on WhatsApp."};
     try{navigator.clipboard.writeText(text).then(()=>{msg.textContent="Copied. Paste it into WhatsApp and send it to your DMI IELTS teacher."},fallback)}catch(e){fallback()}
   };
+  const st=r.querySelector("#sendStatus");
+  const payload={name,branch,batch,score:total,total:TOTAL,percent:pct,sections:Object.fromEntries(per.map(p=>[p.name,p.s+"/"+p.n])),missed:missed.join(", ")};
+  try{
+    fetch(RESULTS_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)})
+      .then(()=>{st.textContent="Your result has been sent to DMI.";st.classList.add("ok")})
+      .catch(()=>{st.textContent="Your result could not be sent automatically. Please copy it and send it to your teacher on WhatsApp.";st.classList.add("bad")});
+  }catch(e){st.textContent="Your result could not be sent automatically. Please copy it and send it to your teacher on WhatsApp.";st.classList.add("bad")}
   r.querySelector("#reviewBtn").onclick=()=>{const t=document.getElementById("sec-format");window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-70,behavior:"smooth"})};
   r.querySelector("#retryBtn").onclick=reset;
   document.getElementById("submitArea").hidden=true;
