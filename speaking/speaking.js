@@ -10,7 +10,7 @@
   var nameEl = document.getElementById('userName');
   if (nameEl && u) nameEl.textContent = 'Hi, ' + (u.name || u.username);
   var out = document.getElementById('logout');
-  if (out) out.addEventListener('click', function () { localStorage.removeItem('lms_session'); location.href = '../index.html'; });
+  if (out) out.addEventListener('click', function () { localStorage.removeItem('dmi_lms_user'); localStorage.removeItem('dmi_lms_role'); location.href = '/IELTS-LMS/index.html'; });
   document.querySelectorAll('[data-season]').forEach(function (el) { el.textContent = D.season; });
 
   var list = document.getElementById('list');
