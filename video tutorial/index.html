@@ -499,6 +499,7 @@
         <span class="text-sm font-semibold">Password</span>
         <input id="loginPass" type="password" class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Password" autocomplete="current-password" />
       </label>
+      <div id="loginNext" class="hidden text-sm rounded px-3 py-2" style="background:#fff6e8;border:1px solid #f0d9b3;color:#7a4b08">Sign in with your DMI username and password to open the <strong>IELTS Speaking question bank</strong>.</div>
       <div id="loginErr" class="text-red-600 text-sm hidden"></div>
       <button onclick="login()" class="w-full btn btn-primary mt-2">Sign in</button>
       <a href="../index.html" class="btn btn-outline btn-link">Open IELTS Practice Papers</a>
@@ -553,6 +554,7 @@
       </div>
       <div class="flex items-center gap-3 text-sm">
         <span id="userBadge" class="text-gray-300"></span>
+        <a href="../speaking/index.html" class="px-3 py-1.5 border border-gray-500 rounded hover:bg-gray-700">Speaking Questions</a>
         <a href="../index.html" class="px-3 py-1.5 border border-gray-500 rounded hover:bg-gray-700">Practice Papers</a>
         <button onclick="logout()" class="px-3 py-1.5 border border-gray-500 rounded hover:bg-gray-700">Logout</button>
       </div>
@@ -1264,8 +1266,20 @@ function login() {
   if (!found) { err.textContent = 'Invalid username or password'; err.classList.remove('hidden'); return; }
   err.classList.add('hidden');
   save(LS.SESSION, u);
+  if (dmiNextRedirect()) return;
   state.user = found;
   showApp();
+}
+// After sign-in, return students to the page that sent them here (e.g. the Speaking question bank).
+function dmiNextPage() {
+  const n = new URLSearchParams(location.search).get('next');
+  return n && /^speaking\/[a-z0-9-]+\.html$/.test(n) ? n : null;
+}
+function dmiNextRedirect() {
+  const n = dmiNextPage();
+  if (!n) return false;
+  location.href = '../' + n;
+  return true;
 }
 function logout() {
   localStorage.removeItem(LS.SESSION);
@@ -1293,6 +1307,8 @@ function signup() {
 }
 
 function showLogin() {
+  const nextNote = document.getElementById('loginNext');
+  if (nextNote) nextNote.classList.toggle('hidden', !dmiNextPage());
   document.getElementById('loginView').classList.remove('hidden');
   document.getElementById('appView').classList.add('hidden');
 }
@@ -1309,7 +1325,7 @@ const sess = load(LS.SESSION, null);
 if (sess) {
   const users = load(LS.USERS, []);
   const u = users.find(x => x.username === sess);
-  if (u) { state.user = u; showApp(); } else { showLogin(); }
+  if (u) { if (!dmiNextRedirect()) { state.user = u; showApp(); } } else { showLogin(); }
 } else { showLogin(); }
 
 // ============================================================
