@@ -113,6 +113,66 @@
     body.selftest .row:not(.shown) .hide-in-test mark { background: transparent; }
     body.no-ta .ta { display: none; }
 
+    /* Copy protection: no text selection except in form fields */
+    body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+    input, select, textarea { -webkit-user-select: text; user-select: text; }
+    .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--navy); color: #fff; padding: 10px 16px; border-radius: 10px; font-size: 14px; font-weight: 600; z-index: 50; box-shadow: 0 8px 24px rgba(15,30,45,.25); max-width: calc(100% - 32px); text-align: center; }
+    @media print { body > * { display: none !important; } body::after { content: "Printing is turned off for DMI IELTS Vocabulary."; display: block; padding: 40px; font: 18px Arial, sans-serif; } }
+
+    /* Tests */
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin: 0 0 18px; }
+    .card h2 { font-family: var(--display); font-size: 22px; margin: 0 0 4px; }
+    .card > p { margin: 0 0 12px; color: var(--muted); font-size: 14.5px; }
+    .details { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 12px; }
+    .details label { display: flex; flex-direction: column; gap: 4px; font-size: 13.5px; font-weight: 600; min-width: 0; }
+    .details input, .details select { font: inherit; font-size: 15px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); color: var(--ink); width: 100%; }
+    .details input:focus-visible, .details select:focus-visible { outline: 3px solid var(--gold); outline-offset: 1px; }
+    .err { color: var(--red); font-size: 14px; font-weight: 600; margin: 10px 0 0; }
+    .test-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+    .test-card { display: flex; flex-direction: column; gap: 6px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+    .test-card .lvl { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
+    .test-card h3 { margin: 0; font-size: 18px; color: var(--blue); }
+    .test-card p { margin: 0; color: var(--muted); font-size: 14.5px; flex: 1; }
+    .test-card .meta { font-size: 13px; color: var(--muted); }
+    .test-card .last { font-size: 13px; color: var(--green); font-weight: 600; }
+    .go { align-self: flex-start; margin-top: 6px; border: 0; background: var(--navy); color: #fff; font: inherit; font-weight: 700; font-size: 14.5px; padding: 9px 16px; border-radius: 8px; cursor: pointer; }
+    .go:hover { background: var(--blue); }
+    .go.ghost { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+    .go:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+    .test-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 0 0 14px; }
+    .progress { flex: 1 1 200px; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+    .progress i { display: block; height: 100%; background: var(--gold); width: 0; transition: width .2s; }
+    .prog-txt { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .tq { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin: 0 0 12px; }
+    .tq-h { display: flex; gap: 10px; font-weight: 600; font-size: 16px; margin: 0 0 10px; }
+    .tq-n { flex: 0 0 auto; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 1.8em; }
+    .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .opt { display: flex; gap: 10px; align-items: flex-start; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; background: var(--paper); font-size: 15px; min-width: 0; }
+    .opt:hover { border-color: var(--blue); }
+    .opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .opt .l { flex: 0 0 auto; width: 1.6em; height: 1.6em; border-radius: 50%; border: 1.5px solid var(--muted); display: grid; place-items: center; font-size: 12px; font-weight: 700; color: var(--muted); }
+    .opt:focus-within { outline: 3px solid var(--gold); outline-offset: 1px; }
+    .opt.sel { border-color: var(--blue); background: #eaf0f9; }
+    .opt.sel .l { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .opt .t[lang="ta"] { font-family: var(--ta-font); }
+    .marked .opt { cursor: default; }
+    .marked .opt.right { border-color: var(--green); background: #e6f3ec; }
+    .marked .opt.right .l { background: var(--green); border-color: var(--green); color: #fff; }
+    .marked .opt.wrong { border-color: var(--red); background: #fbe9ea; }
+    .marked .opt.wrong .l { background: var(--red); border-color: var(--red); color: #fff; }
+    .why { margin: 10px 0 0; font-size: 14px; color: var(--muted); border-left: 3px solid var(--line); padding-left: 10px; }
+    .why b { color: var(--ink); }
+    .score-card { border: 2px solid var(--navy); }
+    .score { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 4px 0; }
+    .score big { font-family: var(--display); font-size: 52px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .score span { color: var(--muted); font-weight: 600; }
+    .verdict { font-weight: 600; margin: 4px 0 8px; }
+    .send { font-weight: 600; color: var(--muted); margin: 8px 0 0; }
+    .send.ok { color: var(--green); }
+    .send.bad { color: var(--red); }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    body.in-tests #tools, body.in-tests #chips, body.in-tests #count { display: none !important; }
+
     footer { max-width: 1100px; margin: 0 auto; padding: 0 16px 40px; color: var(--muted); font-size: 13.5px; }
 
     @media (max-width: 760px) {
@@ -124,6 +184,8 @@
       .btn { padding: 6px 10px; white-space: nowrap; }
       .tabs a { padding: 10px 11px; font-size: 14px; }
       .tools .toggle { flex: 1 1 auto; justify-content: center; }
+      .details, .opts { grid-template-columns: 1fr; }
+      .tq { padding: 14px 16px; }
     }
     @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
   </style>
@@ -140,6 +202,7 @@
       <a href="#phrases" data-tab="phrases">Speaking Phrases</a>
       <a href="#upgrades" data-tab="upgrades">Word Upgrades</a>
       <a href="#core" data-tab="core">Core Words (Tamil)</a>
+      <a href="#tests" data-tab="tests">Tests</a>
     </nav>
   </header>
 
@@ -147,7 +210,7 @@
     <h1 id="title">IELTS Vocabulary</h1>
     <p class="lede" id="lede"></p>
 
-    <div class="tools">
+    <div class="tools" id="tools">
       <input class="search" id="q" type="search" placeholder="Search words, meanings or Tamil" aria-label="Search vocabulary" autocomplete="off">
       <button class="toggle" id="taToggle" type="button" aria-pressed="true"><span class="sw" aria-hidden="true"></span>Tamil meanings</button>
       <button class="toggle" id="testToggle" type="button" aria-pressed="false"><span class="sw" aria-hidden="true"></span>Self-test</button>
@@ -160,6 +223,7 @@
   <footer>DMI Computer Education &middot; IELTS Department. Learn the words in the example sentences, then use them in your own answers. Do not memorise whole answers.</footer>
 
   <script src="vocab-data.js"></script>
+  <script src="vocab-tests.js"></script>
   <script>
   (function () {
     var V = window.VOCAB;
@@ -175,7 +239,8 @@
       topics: { title: "Speaking: topic vocabulary", lede: "Advanced words and collocations for the most common Speaking topics. Use one or two in each answer, naturally." },
       phrases: { title: "Speaking: starting, linking and ending", lede: "Phrases that make you sound fluent and natural: how to start an answer, buy time, give reasons, and finish clearly." },
       upgrades: { title: "Word upgrades", lede: "Replace the basic words you use every day with stronger ones. This is one of the quickest ways to raise your Lexical Resource score." },
-      core: { title: "Core IELTS words with Tamil meanings", lede: "The most useful IELTS words, from basic to advanced, with English and Tamil meanings and an example sentence." }
+      core: { title: "Core IELTS words with Tamil meanings", lede: "The most useful IELTS words, from basic to advanced, with English and Tamil meanings and an example sentence." },
+      tests: { title: "Vocabulary tests", lede: "Five tests of 20 questions each. Study the word lists first, then check how many you remember. Your marks go to your DMI teacher." }
     };
     var state = { tab: "writing", filter: "all", query: "" };
 
@@ -313,13 +378,183 @@
       return { html: html, shown: shown, total: total };
     }
 
-    var RENDER = { writing: renderWriting, topics: renderTopics, phrases: renderPhrases, upgrades: renderUpgrades, core: renderCore };
+    /* ---------- Tests ---------- */
+    var RESULTS_URL = "https://script.google.com/macros/s/AKfycbwLkFpHNFGyaKrFv0Lfji6y75OdX13L21l7Q3A81jYujsRSHYigDUgCfqxhcsBUfoKqag/exec";
+    var BRANCHES = ["Jaffna", "Nelliady", "Chavakachcheri", "Chunnakam", "Kilinochchi", "Sandilipay"];
+    var LET = "ABCD";
+    var T = { id: null, answers: {}, done: false, result: null };
+    var hasTamil = /[஀-௿]/;
+
+    function seeded(n) { var s = n * 9301 + 49297; return function () { s = (s * 9301 + 49297) % 233280; return s / 233280; }; }
+    // Fixed option order per question, so every student sees the same paper.
+    (window.VOCAB_TESTS || []).forEach(function (t) {
+      t.items = t.qs.map(function (q, i) {
+        var rnd = seeded(t.id * 100 + i + 3), order = [0, 1, 2, 3];
+        for (var k = 3; k > 0; k--) { var j = Math.floor(rnd() * (k + 1)); var x = order[k]; order[k] = order[j]; order[j] = x; }
+        return { n: i + 1, q: q[0], opts: order.map(function (o) { return q[1 + o]; }), correct: order.indexOf(0), why: q[5] };
+      });
+    });
+    function getTest(id) { return (window.VOCAB_TESTS || []).filter(function (t) { return t.id === id; })[0]; }
+    function details() { return { name: load("name") || "", branch: load("branch") || "", batch: load("batch") || "" }; }
+
+    function detailsHtml() {
+      var d = details();
+      return '<section class="card"><h2>Your details</h2><p>Enter these once. They are sent with your marks so your teacher knows whose result it is.</p><div class="details">' +
+        '<label for="tName">Full name<input id="tName" autocomplete="name" value="' + esc(d.name) + '" placeholder="e.g. Kavya Sivakumar"></label>' +
+        '<label for="tBranch">Branch<select id="tBranch"><option value="">Choose branch</option>' + BRANCHES.map(function (b) { return "<option" + (d.branch === b ? " selected" : "") + ">" + b + "</option>"; }).join("") + "</select></label>" +
+        '<label for="tBatch">Batch / class (optional)<input id="tBatch" value="' + esc(d.batch) + '" placeholder="e.g. IELTS Nov batch"></label>' +
+        '</div><p class="err" id="tErr" hidden>Please enter your name and choose your branch.</p></section>';
+    }
+
+    function renderTestList() {
+      var html = detailsHtml() + '<div class="test-grid">';
+      window.VOCAB_TESTS.forEach(function (t) {
+        var last = load("last" + t.id);
+        html += '<div class="test-card"><span class="lvl">' + esc(t.level) + "</span><h3>" + esc(t.title) + "</h3><p>" + esc(t.desc) + '</p><span class="meta">' + t.items.length + " questions &middot; about 10 minutes</span>" +
+          (last ? '<span class="last">Your last score: ' + esc(last) + "</span>" : "") +
+          '<button class="go" type="button" data-start="' + t.id + '">' + (last ? "Take again" : "Start test") + "</button></div>";
+      });
+      return html + "</div>";
+    }
+
+    function renderTestPaper() {
+      var t = getTest(T.id), answered = Object.keys(T.answers).length;
+      var html = '<div class="test-bar"><button class="go ghost" type="button" data-back="1">&larr; All tests</button>';
+      if (!T.done) html += '<div class="progress" aria-hidden="true"><i style="width:' + (answered / t.items.length * 100) + '%"></i></div><span class="prog-txt">' + answered + " / " + t.items.length + " answered</span>";
+      html += "</div>";
+      if (T.done) html += T.result;
+      html += '<h2 style="font-family:var(--display);font-size:24px;margin:0 0 12px">' + esc(t.title) + "</h2>";
+      t.items.forEach(function (it) {
+        var a = T.answers[it.n];
+        html += '<div class="tq' + (T.done ? " marked" : "") + '" id="tq' + it.n + '"><div class="tq-h"><span class="tq-n">' + it.n + ".</span><span>" + esc(it.q) + '</span></div><div class="opts" role="radiogroup" aria-label="Question ' + it.n + '">';
+        it.opts.forEach(function (o, oi) {
+          var cls = "opt";
+          if (a === oi) cls += " sel";
+          if (T.done && oi === it.correct) cls += " right";
+          if (T.done && a === oi && oi !== it.correct) cls += " wrong";
+          html += '<label class="' + cls + '"><input type="radio" name="q' + it.n + '" value="' + oi + '"' + (a === oi ? " checked" : "") + (T.done ? " disabled" : "") + ' data-q="' + it.n + '"><span class="l">' + LET[oi] + '</span><span class="t"' + (hasTamil.test(o) ? ' lang="ta"' : "") + ">" + esc(o) + "</span></label>";
+        });
+        html += "</div>";
+        if (T.done) {
+          var res = a === it.correct ? "Correct." : (a === undefined ? "Not answered." : "Incorrect.");
+          html += '<p class="why"><b>' + res + " Answer: " + LET[it.correct] + ".</b> " + esc(it.why || "") + "</p>";
+        }
+        html += "</div>";
+      });
+      if (!T.done) html += '<p class="err" id="tSubErr" hidden></p><div class="actions"><button class="go" type="button" data-submit="1">Submit test</button></div>';
+      return html;
+    }
+
+    function renderTests() {
+      setChips([]);
+      return { html: T.id ? renderTestPaper() : renderTestList(), shown: 0, total: 0 };
+    }
+
+    function saveDetails() {
+      var n = document.getElementById("tName"), b = document.getElementById("tBranch"), c = document.getElementById("tBatch");
+      if (n) store("name", n.value.trim());
+      if (b) store("branch", b.value);
+      if (c) store("batch", c.value.trim());
+    }
+
+    function submitTest(force) {
+      var t = getTest(T.id), d = details();
+      var errEl = document.getElementById("tSubErr");
+      if (!d.name || !d.branch) {
+        errEl.hidden = false;
+        errEl.innerHTML = 'Please go back to <a href="#tests" data-back="1">All tests</a> and enter your name and branch first. Your answers are kept.';
+        return;
+      }
+      var missing = t.items.filter(function (it) { return T.answers[it.n] === undefined; }).length;
+      if (missing && !force) {
+        errEl.hidden = false;
+        errEl.innerHTML = missing + " question" + (missing > 1 ? "s are" : " is") + ' not answered and will get no mark. <button class="go" type="button" data-submit="force" style="margin-left:8px">Submit anyway</button>';
+        return;
+      }
+      var score = 0, missed = [];
+      t.items.forEach(function (it) { if (T.answers[it.n] === it.correct) score++; else missed.push(it.n); });
+      var pct = Math.round(score / t.items.length * 100);
+      var verdict = pct >= 85 ? "Excellent. You know these words well." : pct >= 70 ? "Good. Review the words you missed." : pct >= 50 ? "Fair. Study the word lists again and retake the test." : "Keep practising. Go back to the word lists, then try again.";
+      store("last" + t.id, score + "/" + t.items.length);
+      T.done = true;
+      T.result = '<section class="card score-card" id="scoreCard"><h2>Your score</h2><div class="score"><big>' + score + '<span style="font-size:24px">/' + t.items.length + "</span></big><span>" + pct + "%</span></div>" +
+        '<p class="verdict">' + esc(verdict) + '</p><p class="send" id="sendStatus">Sending your marks to DMI…</p>' +
+        '<div class="actions"><button class="go" type="button" data-retry="1">Take this test again</button><button class="go ghost" type="button" data-back="1">All tests</button></div></section>';
+      render();
+      window.scrollTo(0, 0);
+      var st = document.getElementById("sendStatus");
+      var payload = { type: "vocab", name: d.name, branch: d.branch, batch: d.batch, test: t.title, score: score, total: t.items.length, percent: pct, missed: missed.join(", ") };
+      function fail() { if (st) { st.textContent = "Your marks could not be sent. Please tell your teacher your score: " + score + "/" + t.items.length + "."; st.className = "send bad"; } }
+      try {
+        fetch(RESULTS_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) })
+          .then(function () { if (st) { st.textContent = "Your marks have been sent to DMI."; st.className = "send ok"; } T.result = T.result.replace(/<p class="send"[^>]*>.*?<\/p>/, '<p class="send ok">Your marks have been sent to DMI.</p>'); }, fail);
+      } catch (e) { fail(); }
+    }
+
+    view.addEventListener("change", function (e) {
+      if (e.target.matches("#tName, #tBranch, #tBatch")) { saveDetails(); return; }
+      if (e.target.dataset && e.target.dataset.q && !T.done) {
+        T.answers[e.target.dataset.q] = Number(e.target.value);
+        var box = document.getElementById("tq" + e.target.dataset.q);
+        box.querySelectorAll(".opt").forEach(function (l) { l.classList.toggle("sel", l.querySelector("input").checked); });
+        var t = getTest(T.id), n = Object.keys(T.answers).length;
+        var bar = view.querySelector(".progress i"); if (bar) bar.style.width = (n / t.items.length * 100) + "%";
+        var txt = view.querySelector(".prog-txt"); if (txt) txt.textContent = n + " / " + t.items.length + " answered";
+      }
+    });
+    view.addEventListener("input", function (e) { if (e.target.matches("#tName, #tBatch")) saveDetails(); });
+    view.addEventListener("click", function (e) {
+      var s = e.target.closest("[data-start]");
+      if (s) {
+        saveDetails();
+        var d = details();
+        if (!d.name || !d.branch) { var er = document.getElementById("tErr"); er.hidden = false; document.getElementById(d.name ? "tBranch" : "tName").focus(); return; }
+        T = { id: Number(s.dataset.start), answers: {}, done: false, result: null }; render(); window.scrollTo(0, 0); return;
+      }
+      var b = e.target.closest("[data-back]");
+      if (b) { e.preventDefault(); T = { id: null, answers: {}, done: false, result: null }; render(); window.scrollTo(0, 0); return; }
+      var r = e.target.closest("[data-retry]");
+      if (r) { T = { id: T.id, answers: {}, done: false, result: null }; render(); window.scrollTo(0, 0); return; }
+      var sub = e.target.closest("[data-submit]");
+      if (sub) { submitTest(sub.dataset.submit === "force"); }
+    });
+
+    /* ---------- Copy protection ---------- */
+    var toastTimer;
+    function toast(msg) {
+      var el = document.getElementById("toast");
+      if (!el) { el = document.createElement("div"); el.id = "toast"; el.className = "toast"; el.setAttribute("role", "status"); document.body.appendChild(el); }
+      el.textContent = msg; el.hidden = false;
+      clearTimeout(toastTimer); toastTimer = setTimeout(function () { el.hidden = true; }, 2200);
+    }
+    function isField(el) { return el && el.closest && el.closest("input, textarea, select"); }
+    ["copy", "cut"].forEach(function (ev) {
+      document.addEventListener(ev, function (e) {
+        if (isField(e.target)) return;
+        e.preventDefault();
+        try { e.clipboardData.setData("text/plain", "Copying is turned off on DMI IELTS Vocabulary."); } catch (x) {}
+        toast("Copying is turned off on this page.");
+      });
+    });
+    document.addEventListener("contextmenu", function (e) { if (!isField(e.target)) { e.preventDefault(); toast("Copying is turned off on this page."); } });
+    document.addEventListener("selectstart", function (e) { if (!isField(e.target)) e.preventDefault(); });
+    document.addEventListener("dragstart", function (e) { e.preventDefault(); });
+    document.addEventListener("keydown", function (e) {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      var k = (e.key || "").toLowerCase();
+      var field = isField(e.target);
+      if ((k === "c" || k === "x" || k === "a") && !field) { e.preventDefault(); toast("Copying is turned off on this page."); }
+      if (k === "p" || k === "s" || k === "u") { e.preventDefault(); toast("This page cannot be printed or saved."); }
+    });
+
+    var RENDER = { writing: renderWriting, topics: renderTopics, phrases: renderPhrases, upgrades: renderUpgrades, core: renderCore, tests: renderTests };
 
     function render() {
       var t = TABS[state.tab];
       document.getElementById("title").textContent = t.title;
       document.getElementById("lede").textContent = t.lede;
       document.querySelectorAll(".tabs a").forEach(function (a) { var on = a.dataset.tab === state.tab; a.classList.toggle("on", on); if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+      document.body.classList.toggle("in-tests", state.tab === "tests");
       var r = RENDER[state.tab]();
       view.innerHTML = r.html || '<div class="empty">No words match “' + esc(q.value) + '”. Try a shorter word, or search in Tamil.</div>';
       countEl.textContent = state.query ? "Showing " + r.shown + " of " + r.total + " words and phrases" : r.total + " words and phrases";
