@@ -240,7 +240,7 @@
       phrases: { title: "Speaking: starting, linking and ending", lede: "Phrases that make you sound fluent and natural: how to start an answer, buy time, give reasons, and finish clearly." },
       upgrades: { title: "Word upgrades", lede: "Replace the basic words you use every day with stronger ones. This is one of the quickest ways to raise your Lexical Resource score." },
       core: { title: "Core IELTS words with Tamil meanings", lede: "The most useful IELTS words, from basic to advanced, with English and Tamil meanings and an example sentence." },
-      tests: { title: "Vocabulary tests", lede: "Five tests of 20 questions each. Study the word lists first, then check how many you remember. Your marks go to your DMI teacher." }
+      tests: { title: "Vocabulary tests", lede: "Five tests of 20 questions each. You can take each test only once, so study the word lists first. Your marks go to your DMI teacher." }
     };
     var state = { tab: "writing", filter: "all", query: "" };
 
@@ -394,6 +394,7 @@
         return { n: i + 1, q: q[0], opts: order.map(function (o) { return q[1 + o]; }), correct: order.indexOf(0), why: q[5] };
       });
     });
+    function doneInfo(id) { try { return JSON.parse(load("done" + id) || "null"); } catch (e) { return null; } }
     function getTest(id) { return (window.VOCAB_TESTS || []).filter(function (t) { return t.id === id; })[0]; }
     function details() { return { name: load("name") || "", branch: load("branch") || "", batch: load("batch") || "" }; }
 
@@ -409,10 +410,11 @@
     function renderTestList() {
       var html = detailsHtml() + '<div class="test-grid">';
       window.VOCAB_TESTS.forEach(function (t) {
-        var last = load("last" + t.id);
-        html += '<div class="test-card"><span class="lvl">' + esc(t.level) + "</span><h3>" + esc(t.title) + "</h3><p>" + esc(t.desc) + '</p><span class="meta">' + t.items.length + " questions &middot; about 10 minutes</span>" +
-          (last ? '<span class="last">Your last score: ' + esc(last) + "</span>" : "") +
-          '<button class="go" type="button" data-start="' + t.id + '">' + (last ? "Take again" : "Start test") + "</button></div>";
+        var done = doneInfo(t.id);
+        html += '<div class="test-card"><span class="lvl">' + esc(t.level) + "</span><h3>" + esc(t.title) + "</h3><p>" + esc(t.desc) + '</p><span class="meta">' + t.items.length + " questions &middot; one attempt only</span>" +
+          (done ? '<span class="last">Submitted ' + esc(done.at) + " &middot; Score " + esc(done.score) + "</span>" +
+                  '<button class="go" type="button" disabled style="opacity:.55;cursor:not-allowed">Completed</button></div>'
+                : '<button class="go" type="button" data-start="' + t.id + '">Start test</button></div>');
       });
       return html + "</div>";
     }
@@ -422,7 +424,7 @@
       var html = '<div class="test-bar"><button class="go ghost" type="button" data-back="1">&larr; All tests</button>';
       if (!T.done) html += '<div class="progress" aria-hidden="true"><i style="width:' + (answered / t.items.length * 100) + '%"></i></div><span class="prog-txt">' + answered + " / " + t.items.length + " answered</span>";
       html += "</div>";
-      if (T.done) html += T.result;
+      if (T.done) return html + T.result;
       html += '<h2 style="font-family:var(--display);font-size:24px;margin:0 0 12px">' + esc(t.title) + "</h2>";
       t.items.forEach(function (it) {
         var a = T.answers[it.n];
@@ -458,6 +460,7 @@
     }
 
     function submitTest(force) {
+      if (T.done || doneInfo(T.id)) return;
       var t = getTest(T.id), d = details();
       var errEl = document.getElementById("tSubErr");
       if (!d.name || !d.branch) {
@@ -474,12 +477,12 @@
       var score = 0, missed = [];
       t.items.forEach(function (it) { if (T.answers[it.n] === it.correct) score++; else missed.push(it.n); });
       var pct = Math.round(score / t.items.length * 100);
-      var verdict = pct >= 85 ? "Excellent. You know these words well." : pct >= 70 ? "Good. Review the words you missed." : pct >= 50 ? "Fair. Study the word lists again and retake the test." : "Keep practising. Go back to the word lists, then try again.";
-      store("last" + t.id, score + "/" + t.items.length);
+      var verdict = pct >= 85 ? "Excellent. You know these words well." : pct >= 70 ? "Good. Keep reviewing the word lists." : pct >= 50 ? "Fair. Study the word lists again carefully." : "Keep practising. Go back to the word lists and learn them with Self-test mode.";
+      store("done" + t.id, JSON.stringify({ score: score + "/" + t.items.length, at: new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) }));
       T.done = true;
       T.result = '<section class="card score-card" id="scoreCard"><h2>Your score</h2><div class="score"><big>' + score + '<span style="font-size:24px">/' + t.items.length + "</span></big><span>" + pct + "%</span></div>" +
         '<p class="verdict">' + esc(verdict) + '</p><p class="send" id="sendStatus">Sending your marks to DMI…</p>' +
-        '<div class="actions"><button class="go" type="button" data-retry="1">Take this test again</button><button class="go ghost" type="button" data-back="1">All tests</button></div></section>';
+        '<p style="margin:10px 0 0;color:var(--muted);font-size:14.5px">This test is now complete. Your teacher will go through the answers with you in class.</p><div class="actions"><button class="go" type="button" data-back="1">Back to all tests</button></div></section>';
       render();
       window.scrollTo(0, 0);
       var st = document.getElementById("sendStatus");
@@ -509,12 +512,11 @@
         saveDetails();
         var d = details();
         if (!d.name || !d.branch) { var er = document.getElementById("tErr"); er.hidden = false; document.getElementById(d.name ? "tBranch" : "tName").focus(); return; }
+        if (doneInfo(Number(s.dataset.start))) { render(); return; }
         T = { id: Number(s.dataset.start), answers: {}, done: false, result: null }; render(); window.scrollTo(0, 0); return;
       }
       var b = e.target.closest("[data-back]");
       if (b) { e.preventDefault(); T = { id: null, answers: {}, done: false, result: null }; render(); window.scrollTo(0, 0); return; }
-      var r = e.target.closest("[data-retry]");
-      if (r) { T = { id: T.id, answers: {}, done: false, result: null }; render(); window.scrollTo(0, 0); return; }
       var sub = e.target.closest("[data-submit]");
       if (sub) { submitTest(sub.dataset.submit === "force"); }
     });
