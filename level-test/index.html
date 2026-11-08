@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Free IELTS Level Test | DMI</title>
-  <meta name="description" content="Free 20-minute English level test from DMI Computer Education. Find your estimated IELTS band in grammar, vocabulary and reading. No sign-in needed.">
+  <meta name="description" content="Free English level check from DMI Computer Education: grammar, vocabulary and an IELTS Academic reading passage. Find your estimated IELTS band. No sign-in needed.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Free IELTS Level Test | DMI Computer Education">
-  <meta property="og:description" content="30 questions, about 20 minutes. Find your estimated IELTS band for free.">
+  <meta property="og:description" content="50 questions, about 35 minutes, including IELTS Academic reading. Find your estimated band for free.">
   <meta property="og:url" content="https://dmiedu.github.io/IELTS/level-test/">
   <meta property="og:image" content="https://dmiedu.github.io/IELTS/og-level-test.png">
   <meta property="og:image:width" content="1200">
@@ -78,6 +78,12 @@
     .opt.sel { border-color: var(--blue); background: #eaf0f9; }
     .opt.sel .l { background: var(--blue); border-color: var(--blue); color: #fff; }
     .err { color: var(--red); font-weight: 600; font-size: 14.5px; margin: 10px 0 0; }
+    .q-note { margin: 18px 0 8px; font-weight: 700; font-size: 14.5px; color: var(--blue); }
+    .q.hard { border-left: 4px solid var(--gold); }
+    .passage.hard { border-color: var(--gold); }
+    .passage p + p { margin-top: 10px; }
+    .opts.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .typed { font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); color: var(--ink); width: 100%; max-width: 420px; }
 
     .form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .form label { display: flex; flex-direction: column; gap: 5px; font-weight: 600; font-size: 14px; min-width: 0; }
@@ -104,7 +110,7 @@
     @media print { body > * { display: none !important; } }
     @media (max-width: 680px) {
       .facts { grid-template-columns: 1fr 1fr; }
-      .opts, .form { grid-template-columns: 1fr; }
+      .opts, .opts.three, .form { grid-template-columns: 1fr; }
       .brand span { display: none; }
       .brand img { height: 34px; }
       .card { padding: 16px; }
@@ -124,19 +130,20 @@
     <!-- Screen 1: intro -->
     <section id="intro">
       <h1>What is your English level for IELTS?</h1>
-      <p class="lede">Take this free test and get your estimated IELTS band in about 20 minutes. No sign-in needed.</p>
+      <p class="lede">Take this free level check and get your estimated IELTS band in about 35 minutes. No sign-in needed.</p>
       <div class="facts">
-        <div class="fact"><b>30</b><span>questions</span></div>
-        <div class="fact"><b>~20</b><span>minutes</span></div>
+        <div class="fact"><b>50</b><span>questions</span></div>
+        <div class="fact"><b>~35</b><span>minutes</span></div>
         <div class="fact"><b>3</b><span>sections</span></div>
         <div class="fact"><b>Free</b><span>no sign-in</span></div>
       </div>
       <div class="card">
         <h2>How it works</h2>
         <ul class="plain">
-          <li><b>Grammar</b>: 10 questions, from easy to hard.</li>
-          <li><b>Vocabulary</b>: 10 questions.</li>
-          <li><b>Reading</b>: two short passages with 5 questions each.</li>
+          <li><b>Grammar</b>: 15 questions, from easy to hard.</li>
+          <li><b>Vocabulary</b>: 15 questions, from everyday to academic words.</li>
+          <li><b>Reading</b>: two short passages and one IELTS Academic passage with True/False/Not Given and typed answers.</li>
+          <li>The last questions in each section are harder and count double. You need good marks on them to get Band 6.0 or above.</li>
           <li>At the end, enter your name and WhatsApp number to see your estimated band. A DMI advisor can then help you plan your IELTS preparation.</li>
         </ul>
         <div class="actions"><button class="go" type="button" id="startBtn">Start the test</button></div>
@@ -145,7 +152,7 @@
 
     <!-- Screen 2: test -->
     <section id="test" hidden>
-      <div class="bar"><div class="progress" aria-hidden="true"><i id="pbar"></i></div><span class="ptxt" id="ptxt">0 / 30 answered</span></div>
+      <div class="bar"><div class="progress" aria-hidden="true"><i id="pbar"></i></div><span class="ptxt" id="ptxt">0 / 50 answered</span></div>
       <div id="paper"></div>
       <p class="err" id="testErr" hidden></p>
       <div class="actions"><button class="go" type="button" id="finishBtn">Finish and see my band</button></div>
@@ -189,9 +196,13 @@
     var RESULTS_URL = "https://script.google.com/macros/s/AKfycbwLkFpHNFGyaKrFv0Lfji6y75OdX13L21l7Q3A81jYujsRSHYigDUgCfqxhcsBUfoKqag/exec";
     var WA = "94777173517"; // DMI WhatsApp hotline 0777 17 35 17
 
-    // [question, correct, wrong, wrong, wrong]  (correct first; options are shuffled for display)
+    // Question formats:
+    //   [question, correct, wrong, wrong, wrong]                 multiple choice (options shuffled)
+    //   { q, tfng: "True" | "False" | "Not Given" }             True / False / Not Given (fixed order)
+    //   { q, typed: ["answer", "variant"], limit: 2 }           typed answer, word limit
+    // hard: true  = Part B question, worth 2 points.
     var SECTIONS = [
-      { key: "grammar", title: "Grammar", sub: "Choose the correct word or words.", qs: [
+      { key: "grammar", title: "Grammar", sub: "Choose the correct word or words. Questions get harder as you go.", qs: [
         ["My sister ____ in a bank in Jaffna.", "works", "work", "working", "is work"],
         ["We ____ to Colombo last weekend.", "went", "go", "have gone", "going"],
         ["There aren't ____ buses on Sunday.", "many", "much", "a few of", "lot"],
@@ -201,7 +212,12 @@
         ["The new hospital ____ by the government in 2019.", "was built", "built", "has built", "was build"],
         ["I'm looking forward to ____ you at the meeting.", "seeing", "see", "saw", "be seen"],
         ["By the time we arrived, the film ____.", "had already started", "already starts", "has already started", "was already start"],
-        ["Hardly ____ the station when the train left.", "had I reached", "I had reached", "I reached", "did I reached"]
+        ["Hardly ____ the station when the train left.", "had I reached", "I had reached", "I reached", "did I reached"],
+        { hard: true, mc: ["Not until the results were published ____ how serious the problem was.", "did we realise", "we realised", "we did realise", "realised we"] },
+        { hard: true, mc: ["If she ____ the instructions more carefully, she wouldn't have made that mistake.", "had read", "read", "would read", "has read"] },
+        { hard: true, mc: ["The project, ____ was funded by an international bank, was completed in 2021.", "which", "that", "who", "what"] },
+        { hard: true, mc: ["The number of applicants ____ risen sharply since 2020.", "has", "have", "are", "is"] },
+        { hard: true, mc: ["Rarely ____ such a clear improvement in a single term.", "have we seen", "we have seen", "we saw", "did we saw"] }
       ]},
       { key: "vocab", title: "Vocabulary", sub: "Choose the best word.", qs: [
         ["Please ____ the form and give it to the receptionist.", "fill in", "fill on", "fill at", "fill with"],
@@ -213,10 +229,15 @@
         ["We need to ____ a decision before Friday.", "make", "do", "get", "put"],
         ["The new law aims to ____ pollution in cities.", "reduce", "rise", "arise", "deduce"],
         ["Despite the heavy rain, the match went ____ as planned.", "ahead", "after", "into", "under"],
-        ["Her argument was so ____ that everyone agreed with her.", "convincing", "confusing", "boring", "weak"]
+        ["Her argument was so ____ that everyone agreed with her.", "convincing", "confusing", "boring", "weak"],
+        { hard: true, mc: ["The new policy had an ____ effect on small farmers, who lost much of their income.", "adverse", "averse", "adversary", "advent"] },
+        { hard: true, mc: ["The evidence is ____: it does not prove anything either way.", "inconclusive", "conclusive", "inclusive", "exclusive"] },
+        { hard: true, mc: ["Governments must ____ the impact of rising prices on poor families.", "mitigate", "militate", "migrate", "magnify"] },
+        { hard: true, mc: ["The report ____ several reasons for the fall in tourism.", "cites", "sights", "sites", "sighted"] },
+        { hard: true, mc: ["A ____ increase is one that is too small to be important.", "negligible", "substantial", "considerable", "remarkable"] }
       ]},
-      { key: "reading", title: "Reading", sub: "Read each passage, then answer the questions.", passages: [
-        { title: "Kamala's Bakery", text: "Kamala opened a small bakery in Point Pedro in 2018. At first she sold only bread and buns, and she baked everything herself, starting at four o'clock every morning. Within two years, the bakery had become so popular that she hired three assistants and added cakes and short eats to the menu. Last year, Kamala started taking orders through WhatsApp. Now almost half of her sales come from online orders, mostly birthday cakes. She says the biggest challenge is not baking but delivery, because she has only one motorbike. Next year, she hopes to open a second shop in Jaffna town.",
+      { key: "reading", title: "Reading", sub: "Read each passage, then answer the questions. Passage 3 is at IELTS Academic level.", passages: [
+        { title: "Passage 1: Kamala's Bakery", text: ["Kamala opened a small bakery in Point Pedro in 2018. At first she sold only bread and buns, and she baked everything herself, starting at four o'clock every morning. Within two years, the bakery had become so popular that she hired three assistants and added cakes and short eats to the menu. Last year, Kamala started taking orders through WhatsApp. Now almost half of her sales come from online orders, mostly birthday cakes. She says the biggest challenge is not baking but delivery, because she has only one motorbike. Next year, she hopes to open a second shop in Jaffna town."],
           qs: [
             ["When did Kamala open her bakery?", "In 2018", "In 2016", "In 2020", "Last year"],
             ["What did she sell at first?", "Only bread and buns", "Cakes and short eats", "Birthday cakes", "Everything on the menu today"],
@@ -224,13 +245,35 @@
             ["What does Kamala say is her biggest challenge?", "Delivery", "Baking", "Finding staff", "Buying flour"],
             ["What does she plan to do next year?", "Open a second shop", "Buy a second motorbike", "Stop taking online orders", "Close the Point Pedro shop"]
           ]},
-        { title: "Sleep and Memory", text: "For many years, scientists believed that sleep was simply a period of rest for the body. Recent research, however, suggests that sleep plays an active role in learning. During deep sleep, the brain appears to replay information gathered during the day, strengthening the connections that turn short-term memories into long-term ones. In one study, students who slept for eight hours after learning a list of new words remembered significantly more of them the next day than students who stayed awake for the same period. Interestingly, the benefit was greatest for words learned shortly before sleeping. Researchers caution, though, that sleep cannot replace study: it consolidates what has already been learned, but it does not create new knowledge.",
+        { title: "Passage 2: Sleep and Memory", text: ["For many years, scientists believed that sleep was simply a period of rest for the body. Recent research, however, suggests that sleep plays an active role in learning. During deep sleep, the brain appears to replay information gathered during the day, strengthening the connections that turn short-term memories into long-term ones. In one study, students who slept for eight hours after learning a list of new words remembered significantly more of them the next day than students who stayed awake for the same period. Interestingly, the benefit was greatest for words learned shortly before sleeping. Researchers caution, though, that sleep cannot replace study: it consolidates what has already been learned, but it does not create new knowledge."],
           qs: [
             ["What did scientists believe about sleep in the past?", "It was only rest for the body", "It helped people learn", "It created new knowledge", "It was harmful to memory"],
             ["According to the passage, what happens during deep sleep?", "The brain replays information from the day", "The brain learns new words", "Short-term memories are deleted", "The body stops working"],
             ["In the study, the students who slept ...", "remembered more of the new words", "remembered fewer of the new words", "learned new words while asleep", "studied for eight hours"],
             ["The word “consolidates” is closest in meaning to ...", "strengthens", "replaces", "forgets", "creates"],
             ["Which statement would the researchers agree with?", "Students still need to study; sleep helps them keep what they learned.", "Students can learn by sleeping instead of studying.", "Sleep is only useful for the body.", "It is best to learn new words early in the morning."]
+          ]},
+        { title: "Passage 3: Cooling the City", hard: true, text: [
+            "A. Cities are often several degrees warmer than the countryside around them, an effect known as the urban heat island. Concrete, asphalt and dark roofs absorb sunlight during the day and release it slowly at night, while the lack of vegetation means there is little evaporation to cool the air. As urban populations grow, city planners are under increasing pressure to reduce this extra heat, which raises energy use for air conditioning and can be dangerous for elderly residents.",
+            "B. One solution that has attracted attention is the green roof, a roof partly or completely covered with plants growing in a thin layer of soil. Early green roofs were mainly decorative, but modern designs are built for performance. A typical ‘extensive’ green roof uses a soil layer of less than fifteen centimetres and hardy, low-growing plants that need little water or maintenance. ‘Intensive’ roofs, by contrast, support shrubs and even small trees, but they are heavier, more expensive and require a stronger building structure.",
+            "C. The cooling effect of green roofs comes from two sources. The plants shade the roof surface, and water evaporating from leaves and soil removes heat from the surrounding air. Measurements on one test building showed that the surface of a green roof on a summer afternoon was more than 20 degrees cooler than a nearby black roof. However, the effect on air temperature at street level is far smaller, because most green roofs are too high and too few to influence the air where people actually walk.",
+            "D. Supporters argue that the benefits go beyond temperature. Green roofs can hold back a large share of rainwater during storms, reducing the load on drainage systems, and they provide habitats for insects and birds. Critics point out that these advantages depend heavily on local climate. In very dry regions, roofs must be watered, and the water used may cancel out much of the environmental gain.",
+            "E. For this reason, many researchers now see green roofs as one tool among several rather than a complete answer. Planting trees along streets, using lighter-coloured paving and designing buildings that allow air to flow freely may achieve greater cooling at street level for a lower cost. The most effective approach, they suggest, is likely to combine several of these measures, chosen to suit the climate and budget of each city."
+          ],
+          intro: "Questions 41–45: Do the statements agree with the information in the passage? Choose TRUE if the statement agrees, FALSE if it contradicts the passage, and NOT GIVEN if there is no information about it.",
+          qs: [
+            { hard: true, q: "Cities are usually warmer than the countryside around them.", tfng: "True" },
+            { hard: true, q: "Extensive green roofs need a stronger building structure than intensive roofs.", tfng: "False" },
+            { hard: true, q: "Green roofs were first developed in Germany.", tfng: "Not Given" },
+            { hard: true, q: "Green roofs greatly reduce air temperature at street level.", tfng: "False" },
+            { hard: true, q: "In dry regions, watering green roofs may reduce their environmental benefits.", tfng: "True" },
+            { hard: true, note: "Questions 46–48: Complete the sentences. Write NO MORE THAN TWO WORDS from the passage for each answer.",
+              q: "Dark surfaces in cities absorb heat in the day and release it slowly ____.", typed: ["at night"], limit: 2 },
+            { hard: true, q: "Extensive green roofs use plants that are hardy and ____.", typed: ["low-growing", "low growing"], limit: 2 },
+            { hard: true, q: "During storms, green roofs reduce the load on ____.", typed: ["drainage systems", "drainage system", "drainage"], limit: 2 },
+            { hard: true, note: "Questions 49–50: Choose the correct answer.",
+              mc: ["Why do green roofs have only a small cooling effect at street level?", "Most green roofs are too high and too few", "Plants do not shade the roof surface", "Water does not evaporate from green roofs", "The air at street level is already cool"] },
+            { hard: true, mc: ["What is the main conclusion of paragraph E?", "Green roofs work best combined with other measures", "Green roofs should replace street trees", "Green roofs are too expensive for most cities", "Lighter-coloured paving is the only useful solution"] }
           ]}
       ]}
     ];
@@ -238,15 +281,26 @@
     var LET = "ABCD", items = [], answers = {}, n = 0;
     function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
     function seeded(k) { var s = k * 9301 + 49297; return function () { s = (s * 9301 + 49297) % 233280; return s / 233280; }; }
-    function makeItem(q, section) {
+    function makeItem(raw, section) {
       n++;
-      var rnd = seeded(n + 11), order = [0, 1, 2, 3];
-      for (var k = 3; k > 0; k--) { var j = Math.floor(rnd() * (k + 1)); var x = order[k]; order[k] = order[j]; order[j] = x; }
-      var it = { n: n, q: q[0], opts: order.map(function (o) { return q[1 + o]; }), correct: order.indexOf(0), section: section };
+      var it = { n: n, section: section, hard: !!raw.hard, note: raw.note || "" };
+      if (raw.tfng) { it.kind = "mc"; it.q = raw.q; it.opts = ["True", "False", "Not Given"]; it.correct = it.opts.indexOf(raw.tfng); }
+      else if (raw.typed) { it.kind = "typed"; it.q = raw.q; it.accept = raw.typed; it.limit = raw.limit || 2; }
+      else {
+        var q = Array.isArray(raw) ? raw : raw.mc;
+        var rnd = seeded(n + 11), order = [0, 1, 2, 3];
+        for (var k = 3; k > 0; k--) { var j = Math.floor(rnd() * (k + 1)); var x = order[k]; order[k] = order[j]; order[j] = x; }
+        it.kind = "mc"; it.q = q[0]; it.opts = order.map(function (o) { return q[1 + o]; }); it.correct = order.indexOf(0);
+      }
       items.push(it); return it;
     }
     function qHtml(it) {
-      var h = '<div class="q" id="q' + it.n + '"><div class="q-h"><span class="q-n">' + it.n + ".</span><span>" + esc(it.q) + '</span></div><div class="opts" role="radiogroup" aria-label="Question ' + it.n + '">';
+      var h = (it.note ? '<p class="q-note">' + esc(it.note) + "</p>" : "") +
+        '<div class="q' + (it.hard ? " hard" : "") + '" id="q' + it.n + '"><div class="q-h"><span class="q-n">' + it.n + ".</span><span>" + esc(it.q) + "</span></div>";
+      if (it.kind === "typed") {
+        return h + '<input class="typed" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" data-q="' + it.n + '" aria-label="Answer to question ' + it.n + '" placeholder="Type your answer (no more than ' + it.limit + ' words)"></div>';
+      }
+      h += '<div class="opts' + (it.opts.length === 3 ? " three" : "") + '" role="radiogroup" aria-label="Question ' + it.n + '">';
       it.opts.forEach(function (o, i) { h += '<label class="opt"><input type="radio" name="q' + it.n + '" value="' + i + '" data-q="' + it.n + '"><span class="l">' + LET[i] + "</span><span>" + esc(o) + "</span></label>"; });
       return h + "</div></div>";
     }
@@ -256,11 +310,16 @@
       html += '<div class="section-h"><span class="n">' + (si + 1) + "</span><div><h2>" + esc(s.title) + "</h2><p>" + esc(s.sub) + "</p></div></div>";
       if (s.passages) {
         s.passages.forEach(function (p) {
-          html += '<div class="passage"><h3>' + esc(p.title) + "</h3><p>" + esc(p.text) + "</p></div>";
+          html += '<div class="passage' + (p.hard ? " hard" : "") + '"><h3>' + esc(p.title) + "</h3>" + p.text.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") + "</div>";
+          if (p.intro) html += '<p class="q-note">' + esc(p.intro) + "</p>";
           p.qs.forEach(function (q) { html += qHtml(makeItem(q, s.key)); });
         });
       } else {
-        s.qs.forEach(function (q) { html += qHtml(makeItem(q, s.key)); });
+        var shownHard = false;
+        s.qs.forEach(function (q) {
+          if (q.hard && !shownHard) { shownHard = true; html += '<p class="q-note">Harder questions (Band 6.5 and above)</p>'; }
+          html += qHtml(makeItem(q, s.key));
+        });
       }
     });
     document.getElementById("paper").innerHTML = html;
@@ -269,18 +328,28 @@
     function show(id) { ["intro", "test", "details", "resultBox"].forEach(function (s) { document.getElementById(s).hidden = s !== id; }); window.scrollTo(0, 0); }
     document.getElementById("startBtn").addEventListener("click", function () { show("test"); });
 
-    document.getElementById("paper").addEventListener("change", function (e) {
-      var q = e.target.dataset.q; if (!q) return;
-      answers[q] = Number(e.target.value);
-      document.querySelectorAll("#q" + q + " .opt").forEach(function (l) { l.classList.toggle("sel", l.querySelector("input").checked); });
-      var c = Object.keys(answers).length;
+    function answeredCount() { return Object.keys(answers).filter(function (k) { return answers[k] !== "" && answers[k] !== undefined; }).length; }
+    function updateProgress() {
+      var c = answeredCount();
       document.getElementById("pbar").style.width = (c / TOTAL * 100) + "%";
       document.getElementById("ptxt").textContent = c + " / " + TOTAL + " answered";
+    }
+    var paper = document.getElementById("paper");
+    paper.addEventListener("change", function (e) {
+      var q = e.target.dataset.q; if (!q || e.target.type !== "radio") return;
+      answers[q] = Number(e.target.value);
+      document.querySelectorAll("#q" + q + " .opt").forEach(function (l) { l.classList.toggle("sel", l.querySelector("input").checked); });
+      updateProgress();
+    });
+    paper.addEventListener("input", function (e) {
+      var q = e.target.dataset.q; if (!q || !e.target.classList.contains("typed")) return;
+      answers[q] = e.target.value.trim();
+      updateProgress();
     });
 
     var forced = false;
     document.getElementById("finishBtn").addEventListener("click", function () {
-      var missing = TOTAL - Object.keys(answers).length, err = document.getElementById("testErr");
+      var missing = TOTAL - answeredCount(), err = document.getElementById("testErr");
       if (missing && !forced) {
         forced = true; err.hidden = false;
         err.textContent = missing + " question" + (missing > 1 ? "s are" : " is") + " not answered. Unanswered questions get no mark. Press the button again to finish anyway.";
@@ -289,14 +358,33 @@
       err.hidden = true; show("details");
     });
 
-    function bandFor(score) {
-      if (score >= 28) return { band: "7.0+", cefr: "C1", next: "You are close to the top bands. Focus on Writing Task 2 and Speaking Part 3 to secure 7.0 or above." };
-      if (score >= 25) return { band: "6.5", cefr: "B2", next: "A strong level. Timed practice and Writing feedback can lift you to 7.0." };
-      if (score >= 22) return { band: "6.0", cefr: "B2", next: "A good base. Our IELTS course will build the vocabulary and exam skills you need for 6.5 to 7.0." };
-      if (score >= 18) return { band: "5.5", cefr: "B1", next: "You can follow everyday English. Grammar and vocabulary practice will move you to Band 6." };
-      if (score >= 14) return { band: "5.0", cefr: "B1", next: "Start with a strong English foundation, then move to IELTS exam practice." };
-      if (score >= 10) return { band: "4.5", cefr: "A2–B1", next: "We recommend DMI Spoken English first, then the IELTS course." };
-      return { band: "4.0 or below", cefr: "A2", next: "Build your basic English first with DMI Spoken English. It is the fastest route to IELTS." };
+    function norm(s) { return String(s || "").toLowerCase().replace(/[‘’']/g, "").replace(/[.,;:!?"]/g, " ").replace(/\s+/g, " ").trim(); }
+    function isRight(it) {
+      var a = answers[it.n];
+      if (it.kind === "typed") {
+        if (!a) return false;
+        var v = norm(a);
+        if (v.split(" ").length > it.limit) return false;   // over the word limit is wrong, as in IELTS
+        return it.accept.some(function (x) { return norm(x) === v; });
+      }
+      return a === it.correct;
+    }
+
+    // Strict scoring: Part A questions = 1 point, Part B (hard) = 2 points; max 70.
+    // Higher bands also need a minimum Part B score, so easy questions alone cannot give a high band.
+    var LEVELS = [
+      { min: 67, hardMin: 18, band: "7.5", cefr: "C1", next: "A very strong level. Timed full mock tests and Writing feedback will help you secure 7.5 or above." },
+      { min: 63, hardMin: 15, band: "7.0", cefr: "C1", next: "A strong level. Focus on Writing Task 2 and Speaking Part 3 to reach 7.0 in the real test." },
+      { min: 57, hardMin: 12, band: "6.5", cefr: "B2", next: "Good academic English. Exam technique and Writing practice can move you to 7.0." },
+      { min: 50, hardMin: 8, band: "6.0", cefr: "B2", next: "A good base. Our IELTS course will build the academic reading and vocabulary you need for 6.5 to 7.0." },
+      { min: 43, hardMin: 4, band: "5.5", cefr: "B1", next: "You understand everyday English, but academic texts are still difficult. Our IELTS course builds this step by step." },
+      { min: 35, hardMin: 0, band: "5.0", cefr: "B1", next: "Strengthen your grammar and vocabulary first, then move to IELTS exam practice." },
+      { min: 25, hardMin: 0, band: "4.5", cefr: "A2–B1", next: "We recommend DMI Spoken English first, then the IELTS course." },
+      { min: 0, hardMin: 0, band: "4.0 or below", cefr: "A2", next: "Build your basic English first with DMI Spoken English. It is the fastest route to IELTS." }
+    ];
+    function bandFor(points, hardRight) {
+      for (var i = 0; i < LEVELS.length; i++) { if (points >= LEVELS[i].min && hardRight >= LEVELS[i].hardMin) return LEVELS[i]; }
+      return LEVELS[LEVELS.length - 1];
     }
 
     document.getElementById("leadForm").addEventListener("submit", function (e) {
@@ -314,27 +402,30 @@
       if (problem) { err.hidden = false; err.textContent = problem; return; }
       err.hidden = true;
 
-      var per = { grammar: 0, vocab: 0, reading: 0 }, score = 0;
-      items.forEach(function (it) { if (answers[it.n] === it.correct) { score++; per[it.section]++; } });
-      var b = bandFor(score);
-      renderResult(name, score, per, b);
-      var payload = { type: "lead", source: "Free level test", name: name, phone: phone, branch: branch, purpose: purpose, when: when, score: score, total: TOTAL, band: b.band, grammar: per.grammar, vocab: per.vocab, reading: per.reading };
+      var per = { grammar: [0, 0], vocab: [0, 0], reading: [0, 0] }, score = 0, points = 0, hardRight = 0;
+      items.forEach(function (it) {
+        per[it.section][1]++;
+        if (isRight(it)) { score++; per[it.section][0]++; points += it.hard ? 2 : 1; if (it.hard) hardRight++; }
+      });
+      var b = bandFor(points, hardRight);
+      renderResult(name, score, per, b, hardRight);
+      var payload = { type: "lead", source: "Free level test v2", name: name, phone: phone, branch: branch, purpose: purpose, when: when, score: score, total: TOTAL, band: b.band, grammar: per.grammar[0], vocab: per.vocab[0], reading: per.reading[0] };
       try { fetch(RESULTS_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) }).catch(function () {}); } catch (x) {}
     });
 
-    function renderResult(name, score, per, b) {
+    function renderResult(name, score, per, b, hardRight) {
       var first = name.split(" ")[0];
-      var msg = "Hello DMI, I took the free IELTS Level Test. My estimated band is " + b.band + " (" + score + "/" + TOTAL + "). I would like to know about IELTS classes.";
-      var rows = [["Grammar", per.grammar], ["Vocabulary", per.vocab], ["Reading", per.reading]].map(function (r) {
-        var f = r[1] / 10, col = f >= .75 ? "var(--green)" : f >= .5 ? "var(--gold)" : "var(--red)";
-        return '<div class="row"><span>' + r[0] + '</span><div class="t"><i style="width:' + (f * 100) + "%;background:" + col + '"></i></div><span class="v">' + r[1] + "/10</span></div>";
+      var msg = "Hello DMI, I took the free IELTS Level Test. My estimated level is Band " + b.band + " (" + score + "/" + TOTAL + "). I would like to know about IELTS classes.";
+      var rows = [["Grammar", per.grammar], ["Vocabulary", per.vocab], ["Reading", per.reading], ["Harder questions", [hardRight, 20]]].map(function (r) {
+        var f = r[1][0] / r[1][1], col = f >= .75 ? "var(--green)" : f >= .5 ? "var(--gold)" : "var(--red)";
+        return '<div class="row"><span>' + r[0] + '</span><div class="t"><i style="width:' + (f * 100) + "%;background:" + col + '"></i></div><span class="v">' + r[1][0] + "/" + r[1][1] + "</span></div>";
       }).join("");
       document.getElementById("resultBox").innerHTML =
-        '<div class="card result"><p style="margin:0;color:var(--muted);font-weight:600">' + esc(first) + ", your estimated IELTS level</p>" +
-        '<div class="band"><big>Band ' + esc(b.band) + "</big><span>" + score + "/" + TOTAL + " &middot; CEFR " + esc(b.cefr) + "</span></div>" +
+        '<div class="card result"><p style="margin:0;color:var(--muted);font-weight:600">' + esc(first) + ", your level check result</p>" +
+        '<div class="band"><big>Band ' + esc(b.band) + "</big><span>estimated &middot; " + score + "/" + TOTAL + " correct &middot; CEFR " + esc(b.cefr) + "</span></div>" +
         '<div class="rows">' + rows + "</div>" +
         '<p style="margin:12px 0 0;font-size:16px">' + esc(b.next) + "</p>" +
-        '<div class="note">This is an estimate from grammar, vocabulary and reading only. Your real IELTS band also depends on Listening, Writing and Speaking. A DMI advisor will contact you on WhatsApp to explain your result and the best course for you.</div>' +
+        '<div class="note">This is a level check, not an official IELTS score. It tests grammar, vocabulary and reading only; your real band also depends on Listening, Writing and Speaking. Harder questions count double, and higher bands need good marks on them. A DMI advisor will contact you on WhatsApp to explain your result.</div>' +
         '<div class="actions"><a class="go wa" href="https://wa.me/' + WA + "?text=" + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Chat with DMI on WhatsApp</a>' +
         '<a class="go ghost" href="../vocabulary/">Free IELTS vocabulary</a><a class="go ghost" href="../band-calculator/">Band score calculator</a></div>' +
         '<p class="send">WhatsApp: 0777 17 35 17 &middot; All branches open every day, 8:00 AM to 5:30 PM.</p></div>';
