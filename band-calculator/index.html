@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IELTS Band Score Calculator | DMI</title>
+  <meta name="description" content="Free IELTS band score calculator. Work out your overall band from the four skills, and convert Listening and Reading scores out of 40 into bands.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IELTS Band Score Calculator | DMI Computer Education">
+  <meta property="og:description" content="Overall band from four skills, plus Listening and Reading score to band converter. Free.">
+  <meta property="og:url" content="https://dmiedu.github.io/IELTS/band-calculator/">
+  <meta property="og:image" content="https://dmiedu.github.io/IELTS/og-band-calculator.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Layout: header as on the other DMI IELTS pages; two calculator cards side by side on desktop, stacked on phones. Light only. */
+    :root {
+      --ink: #1e2d40; --muted: #5f6e84; --line: #d5dce8; --soft: #f2f5f9; --paper: #ffffff;
+      --navy: #0f1e2d; --blue: #123c7c; --gold: #c9903a; --gold-soft: #fbf0dc; --wa: #1f8f4e;
+      --display: "Playfair Display", Georgia, serif;
+      --body: "Outfit", Arial, Helvetica, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body { margin: 0; font-family: var(--body); color: var(--ink); background: var(--soft); line-height: 1.55; }
+    [hidden] { display: none !important; }
+    .top { background: linear-gradient(150deg, var(--navy) 0%, #1a2e45 55%, #0f2236 100%); color: #fff; }
+    .top-inner { max-width: 1000px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; min-width: 0; }
+    .brand img { height: 42px; width: auto; border-radius: 4px; }
+    .brand strong { display: block; font-size: 16px; }
+    .brand span { display: block; font-size: 12px; color: #c9d3e2; letter-spacing: .04em; }
+    .btn-top { border: 1px solid rgba(255,255,255,.35); color: #fff; padding: 7px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    main { max-width: 1000px; margin: 0 auto; padding: 26px 16px 56px; }
+    h1 { font-family: var(--display); font-size: clamp(30px, 5vw, 42px); line-height: 1.12; margin: 0 0 8px; text-wrap: balance; }
+    h2 { font-family: var(--display); font-size: 22px; margin: 0 0 4px; }
+    .lede { color: var(--muted); font-size: 17px; margin: 0 0 22px; max-width: 640px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 20px; min-width: 0; }
+    .card > p { margin: 0 0 14px; color: var(--muted); font-size: 14.5px; }
+    .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    label { display: flex; flex-direction: column; gap: 5px; font-weight: 600; font-size: 14px; min-width: 0; }
+    select, input { font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); color: var(--ink); width: 100%; font-variant-numeric: tabular-nums; }
+    select:focus-visible, input:focus-visible, .seg button:focus-visible, .go:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+    .out { margin-top: 16px; padding: 16px; border-radius: 10px; background: #eef3fa; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+    .out big { font-family: var(--display); font-size: 52px; line-height: 1; color: var(--blue); font-variant-numeric: tabular-nums; }
+    .out span { color: var(--muted); font-weight: 600; font-size: 14.5px; }
+    .how { font-size: 14px; color: var(--muted); margin: 10px 0 0; }
+    .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 0 0 12px; }
+    .seg button { font: inherit; font-size: 14px; font-weight: 600; padding: 8px 14px; border: 0; background: var(--paper); color: var(--ink); cursor: pointer; }
+    .seg button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+    .rule { margin-top: 16px; }
+    .rule table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+    .rule th, .rule td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #edf0f5; }
+    .rule th { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .rule td { font-variant-numeric: tabular-nums; }
+    .cta { margin-top: 16px; background: var(--gold-soft); border: 1px solid #ecd3a6; border-radius: 12px; padding: 18px 20px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+    .cta p { margin: 0; font-weight: 600; color: #5a3c0c; flex: 1 1 280px; }
+    .go { display: inline-flex; align-items: center; border: 0; background: var(--navy); color: #fff; font: inherit; font-weight: 700; font-size: 15px; padding: 11px 18px; border-radius: 10px; text-decoration: none; }
+    .go.wa { background: var(--wa); }
+    .btns { display: flex; flex-wrap: wrap; gap: 10px; }
+    footer { max-width: 1000px; margin: 0 auto; padding: 0 16px 40px; color: var(--muted); font-size: 13.5px; }
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+      .brand span { display: none; }
+      .brand img { height: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="/IELTS-LMS/index.html"><img src="../dmi-logo.jfif" alt="DMI Computer Education logo"><div><strong>IELTS Band Calculator</strong><span>DMI Computer Education &middot; since 2008</span></div></a>
+      <a class="btn-top" href="/IELTS-LMS/index.html">Practice Hub</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>IELTS band score calculator</h1>
+    <p class="lede">Work out your overall IELTS band from your four skill scores, or change a Listening or Reading score out of 40 into a band.</p>
+
+    <div class="grid">
+      <section class="card" aria-labelledby="h-overall">
+        <h2 id="h-overall">Overall band</h2>
+        <p>Choose your band for each skill.</p>
+        <div class="fields">
+          <label for="sL">Listening<select id="sL"></select></label>
+          <label for="sR">Reading<select id="sR"></select></label>
+          <label for="sW">Writing<select id="sW"></select></label>
+          <label for="sS">Speaking<select id="sS"></select></label>
+        </div>
+        <div class="out" aria-live="polite"><big id="overall">6.0</big><span id="avgTxt"></span></div>
+        <div class="rule">
+          <table>
+            <thead><tr><th>Average ends in</th><th>Overall band</th></tr></thead>
+            <tbody>
+              <tr><td>.0 or .125 (e.g. 6.125)</td><td>whole band (6.0)</td></tr>
+              <tr><td>.25 to .625 (e.g. 6.25)</td><td>half band (6.5)</td></tr>
+              <tr><td>.75 or .875 (e.g. 6.75)</td><td>next whole band (7.0)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-raw">
+        <h2 id="h-raw">Score out of 40 to band</h2>
+        <p>Enter the number of correct answers in a Listening or Reading test.</p>
+        <div class="seg" role="group" aria-label="Test">
+          <button type="button" data-t="L" aria-pressed="true">Listening</button>
+          <button type="button" data-t="RA" aria-pressed="false">Reading (Academic)</button>
+          <button type="button" data-t="RG" aria-pressed="false">Reading (General)</button>
+        </div>
+        <label for="raw">Correct answers (0 to 40)<input id="raw" type="number" inputmode="numeric" min="0" max="40" value="30"></label>
+        <div class="out" aria-live="polite"><big id="rawBand">7.0</big><span id="rawTxt"></span></div>
+        <p class="how">These conversions are the commonly used approximate tables. The exact conversion can change slightly from test to test.</p>
+      </section>
+    </div>
+
+    <div class="cta">
+      <p>Don't know your level yet? Take DMI's free 20-minute IELTS level test.</p>
+      <div class="btns"><a class="go" href="../level-test/">Take the free level test</a><a class="go wa" href="https://wa.me/94777173517?text=Hello%20DMI%2C%20I%20would%20like%20to%20know%20about%20IELTS%20classes." target="_blank" rel="noopener">WhatsApp DMI</a></div>
+    </div>
+  </main>
+
+  <footer>DMI Computer Education &middot; IELTS Department &middot; WhatsApp 0777 17 35 17. This calculator gives an estimate and is not an official IELTS result.</footer>
+
+  <script>
+  (function () {
+    var bands = []; for (var b = 0; b <= 9; b += 0.5) bands.push(b);
+    var defaults = { sL: 6.5, sR: 6, sW: 6, sS: 6.5 };
+    Object.keys(defaults).forEach(function (id) {
+      var sel = document.getElementById(id);
+      sel.innerHTML = bands.map(function (v) { return '<option value="' + v + '"' + (v === defaults[id] ? " selected" : "") + ">" + v.toFixed(1) + "</option>"; }).join("");
+      sel.addEventListener("change", overall);
+    });
+    function roundIelts(avg) {
+      var whole = Math.floor(avg), f = avg - whole;
+      if (f < 0.25) return whole;
+      if (f < 0.75) return whole + 0.5;
+      return whole + 1;
+    }
+    function overall() {
+      var vals = ["sL", "sR", "sW", "sS"].map(function (id) { return Number(document.getElementById(id).value); });
+      var avg = vals.reduce(function (a, b) { return a + b; }, 0) / 4;
+      document.getElementById("overall").textContent = roundIelts(avg).toFixed(1);
+      document.getElementById("avgTxt").textContent = "Average " + avg.toFixed(3).replace(/0+$/, "").replace(/\.$/, "") + " → overall band";
+    }
+    overall();
+
+    // [minimum correct answers, band]
+    var TABLES = {
+      L:  [[39, 9], [37, 8.5], [35, 8], [32, 7.5], [30, 7], [26, 6.5], [23, 6], [18, 5.5], [16, 5], [13, 4.5], [10, 4], [8, 3.5], [6, 3], [4, 2.5], [0, 0]],
+      RA: [[39, 9], [37, 8.5], [35, 8], [33, 7.5], [30, 7], [27, 6.5], [23, 6], [19, 5.5], [15, 5], [13, 4.5], [10, 4], [8, 3.5], [6, 3], [4, 2.5], [0, 0]],
+      RG: [[40, 9], [39, 8.5], [37, 8], [36, 7.5], [34, 7], [32, 6.5], [30, 6], [27, 5.5], [23, 5], [19, 4.5], [15, 4], [12, 3.5], [9, 3], [6, 2.5], [0, 0]]
+    };
+    var NAMES = { L: "Listening", RA: "Academic Reading", RG: "General Training Reading" };
+    var t = "L";
+    function raw() {
+      var input = document.getElementById("raw");
+      var v = Math.max(0, Math.min(40, Math.round(Number(input.value) || 0)));
+      var band = 0;
+      for (var i = 0; i < TABLES[t].length; i++) { if (v >= TABLES[t][i][0]) { band = TABLES[t][i][1]; break; } }
+      document.getElementById("rawBand").textContent = band ? band.toFixed(1) : "below 2.5";
+      document.getElementById("rawTxt").textContent = v + "/40 in " + NAMES[t];
+    }
+    document.getElementById("raw").addEventListener("input", raw);
+    document.querySelectorAll(".seg button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        t = btn.dataset.t;
+        document.querySelectorAll(".seg button").forEach(function (b) { b.setAttribute("aria-pressed", String(b === btn)); });
+        raw();
+      });
+    });
+    raw();
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free IELTS Level Test | DMI</title>
+  <meta name="description" content="Free 20-minute English level test from DMI Computer Education. Find your estimated IELTS band in grammar, vocabulary and reading. No sign-in needed.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Free IELTS Level Test | DMI Computer Education">
+  <meta property="og:description" content="30 questions, about 20 minutes. Find your estimated IELTS band for free.">
+  <meta property="og:url" content="https://dmiedu.github.io/IELTS/level-test/">
+  <meta property="og:image" content="https://dmiedu.github.io/IELTS/og-level-test.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Layout: same header as the Vocabulary pages; three screens (intro, test, details) then a result card. Light only, like the rest of the site. */
+    :root {
+      --ink: #1e2d40; --muted: #5f6e84; --line: #d5dce8; --soft: #f2f5f9; --paper: #ffffff;
+      --navy: #0f1e2d; --blue: #123c7c; --red: #c0202a; --gold: #c9903a; --gold-soft: #fbf0dc; --green: #127a4b; --wa: #1f8f4e;
+      --display: "Playfair Display", Georgia, serif;
+      --body: "Outfit", Arial, Helvetica, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body { margin: 0; font-family: var(--body); color: var(--ink); background: var(--soft); line-height: 1.55; -webkit-user-select: none; user-select: none; }
+    input, select, textarea { -webkit-user-select: text; user-select: text; }
+    [hidden] { display: none !important; }
+    a { color: inherit; }
+
+    .top { background: linear-gradient(150deg, var(--navy) 0%, #1a2e45 55%, #0f2236 100%); color: #fff; }
+    .top-inner { max-width: 900px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; }
+    .brand img { height: 42px; width: auto; border-radius: 4px; }
+    .brand strong { display: block; font-size: 16px; }
+    .brand span { display: block; font-size: 12px; color: #c9d3e2; letter-spacing: .04em; }
+    .btn-top { border: 1px solid rgba(255,255,255,.35); color: #fff; padding: 7px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+
+    main { max-width: 900px; margin: 0 auto; padding: 26px 16px 64px; }
+    h1 { font-family: var(--display); font-size: clamp(30px, 5vw, 44px); line-height: 1.12; margin: 0 0 10px; text-wrap: balance; }
+    h2 { font-family: var(--display); font-size: 24px; margin: 0 0 6px; line-height: 1.25; }
+    .lede { color: var(--muted); font-size: 17px; margin: 0 0 20px; max-width: 640px; }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin: 0 0 16px; }
+    .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 0 20px; }
+    .fact { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+    .fact b { display: block; font-size: 22px; color: var(--blue); font-variant-numeric: tabular-nums; }
+    .fact span { font-size: 13.5px; color: var(--muted); }
+    ul.plain { margin: 6px 0 0; padding-left: 20px; }
+    ul.plain li { margin: 3px 0; }
+
+    .go { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; background: var(--navy); color: #fff; font: inherit; font-weight: 700; font-size: 16px; padding: 12px 22px; border-radius: 10px; cursor: pointer; text-decoration: none; }
+    .go:hover { background: var(--blue); }
+    .go.ghost { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+    .go.wa { background: var(--wa); }
+    .go.wa:hover { background: #17733e; }
+    .go:focus-visible, .opt:focus-within, input:focus-visible, select:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+
+    .bar { position: sticky; top: 0; z-index: 5; background: var(--soft); padding: 10px 0; margin: 0 0 12px; display: flex; align-items: center; gap: 12px; }
+    .progress { flex: 1; height: 7px; background: var(--line); border-radius: 4px; overflow: hidden; }
+    .progress i { display: block; height: 100%; width: 0; background: var(--gold); transition: width .2s; }
+    .ptxt { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .section-h { display: flex; align-items: baseline; gap: 12px; margin: 26px 0 10px; padding-bottom: 8px; border-bottom: 2px solid var(--navy); }
+    .section-h .n { font-family: var(--display); font-size: 30px; color: var(--gold); line-height: 1; }
+    .section-h p { margin: 2px 0 0; color: var(--muted); font-size: 14.5px; }
+    .passage { background: #fffdf8; border: 1px solid #ecd9b5; border-radius: 12px; padding: 18px 20px; margin: 0 0 12px; font-size: 16px; }
+    .passage h3 { margin: 0 0 8px; font-size: 18px; color: var(--blue); }
+    .passage p { margin: 0; }
+    .q { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin: 0 0 10px; }
+    .q-h { display: flex; gap: 10px; font-weight: 600; margin: 0 0 10px; }
+    .q-n { color: var(--muted); min-width: 1.8em; font-variant-numeric: tabular-nums; }
+    .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .opt { display: flex; gap: 10px; align-items: flex-start; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; font-size: 15px; min-width: 0; }
+    .opt:hover { border-color: var(--blue); }
+    .opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .opt .l { flex: 0 0 auto; width: 1.6em; height: 1.6em; border-radius: 50%; border: 1.5px solid var(--muted); display: grid; place-items: center; font-size: 12px; font-weight: 700; color: var(--muted); }
+    .opt.sel { border-color: var(--blue); background: #eaf0f9; }
+    .opt.sel .l { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .err { color: var(--red); font-weight: 600; font-size: 14.5px; margin: 10px 0 0; }
+
+    .form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form label { display: flex; flex-direction: column; gap: 5px; font-weight: 600; font-size: 14px; min-width: 0; }
+    .form .full { grid-column: 1 / -1; }
+    .form input, .form select { font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); color: var(--ink); width: 100%; }
+    .consent { display: flex !important; flex-direction: row !important; gap: 10px; align-items: flex-start; font-weight: 500 !important; color: var(--muted); }
+    .consent input { width: auto; margin-top: 4px; }
+    .hint { font-weight: 400; color: var(--muted); font-size: 13px; }
+
+    .result { border: 2px solid var(--navy); }
+    .band { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin: 6px 0 4px; }
+    .band big { font-family: var(--display); font-size: clamp(40px, 11vw, 64px); line-height: 1; color: var(--blue); }
+    .band span { font-weight: 600; color: var(--muted); }
+    .rows { display: flex; flex-direction: column; gap: 10px; margin: 16px 0 6px; }
+    .row { display: grid; grid-template-columns: 7.5em 1fr 3.4em; gap: 10px; align-items: center; font-size: 15px; }
+    .row .t { height: 9px; background: var(--line); border-radius: 5px; overflow: hidden; }
+    .row .t i { display: block; height: 100%; border-radius: 5px; }
+    .row .v { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+    .note { background: var(--gold-soft); border: 1px solid #ecd3a6; border-radius: 10px; padding: 12px 14px; color: #5a3c0c; font-size: 14.5px; margin: 14px 0 0; }
+    .send { font-size: 14px; color: var(--muted); margin: 10px 0 0; }
+
+    .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--navy); color: #fff; padding: 10px 16px; border-radius: 10px; font-size: 14px; font-weight: 600; z-index: 50; max-width: calc(100% - 32px); text-align: center; }
+    footer { max-width: 900px; margin: 0 auto; padding: 0 16px 40px; color: var(--muted); font-size: 13.5px; }
+    @media print { body > * { display: none !important; } }
+    @media (max-width: 680px) {
+      .facts { grid-template-columns: 1fr 1fr; }
+      .opts, .form { grid-template-columns: 1fr; }
+      .brand span { display: none; }
+      .brand img { height: 34px; }
+      .card { padding: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="/IELTS-LMS/index.html"><img src="../dmi-logo.jfif" alt="DMI Computer Education logo"><div><strong>Free IELTS Level Test</strong><span>DMI Computer Education &middot; since 2008</span></div></a>
+      <a class="btn-top" href="/IELTS-LMS/index.html">Practice Hub</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Screen 1: intro -->
+    <section id="intro">
+      <h1>What is your English level for IELTS?</h1>
+      <p class="lede">Take this free test and get your estimated IELTS band in about 20 minutes. No sign-in needed.</p>
+      <div class="facts">
+        <div class="fact"><b>30</b><span>questions</span></div>
+        <div class="fact"><b>~20</b><span>minutes</span></div>
+        <div class="fact"><b>3</b><span>sections</span></div>
+        <div class="fact"><b>Free</b><span>no sign-in</span></div>
+      </div>
+      <div class="card">
+        <h2>How it works</h2>
+        <ul class="plain">
+          <li><b>Grammar</b>: 10 questions, from easy to hard.</li>
+          <li><b>Vocabulary</b>: 10 questions.</li>
+          <li><b>Reading</b>: two short passages with 5 questions each.</li>
+          <li>At the end, enter your name and WhatsApp number to see your estimated band. A DMI advisor can then help you plan your IELTS preparation.</li>
+        </ul>
+        <div class="actions"><button class="go" type="button" id="startBtn">Start the test</button></div>
+      </div>
+    </section>
+
+    <!-- Screen 2: test -->
+    <section id="test" hidden>
+      <div class="bar"><div class="progress" aria-hidden="true"><i id="pbar"></i></div><span class="ptxt" id="ptxt">0 / 30 answered</span></div>
+      <div id="paper"></div>
+      <p class="err" id="testErr" hidden></p>
+      <div class="actions"><button class="go" type="button" id="finishBtn">Finish and see my band</button></div>
+    </section>
+
+    <!-- Screen 3: details -->
+    <section id="details" hidden>
+      <h1>Almost done</h1>
+      <p class="lede">Enter your details to see your estimated IELTS band.</p>
+      <form class="card" id="leadForm" novalidate>
+        <div class="form">
+          <label for="fName">Full name<input id="fName" autocomplete="name" placeholder="e.g. Kavya Sivakumar" required></label>
+          <label for="fPhone">WhatsApp number<input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="e.g. 077 123 4567" required><span class="hint">Sri Lankan or overseas number</span></label>
+          <label for="fBranch">Nearest DMI branch<select id="fBranch" required>
+            <option value="">Choose a branch</option>
+            <option>Jaffna</option><option>Nelliady</option><option>Chavakachcheri</option><option>Chunnakam</option><option>Kilinochchi</option><option>Sandilipay</option><option>I live outside Jaffna district</option>
+          </select></label>
+          <label for="fPurpose">Why do you need IELTS?<select id="fPurpose" required>
+            <option value="">Choose one</option>
+            <option>Study abroad</option><option>Work abroad (nursing, care, other jobs)</option><option>Migration / PR</option><option>Local job or university</option><option>Not sure yet</option>
+          </select></label>
+          <label for="fWhen" class="full">When do you plan to take IELTS?<select id="fWhen" required>
+            <option value="">Choose one</option>
+            <option>Within 3 months</option><option>In 3 to 6 months</option><option>After 6 months</option><option>Not decided</option>
+          </select></label>
+          <label class="consent full" for="fConsent"><input type="checkbox" id="fConsent"> I agree that DMI Computer Education may contact me on WhatsApp or by phone about my result and IELTS classes.</label>
+        </div>
+        <p class="err" id="formErr" hidden></p>
+        <div class="actions"><button class="go" type="submit">Show my band</button></div>
+      </form>
+    </section>
+
+    <!-- Screen 4: result -->
+    <section id="resultBox" hidden></section>
+  </main>
+
+  <footer>DMI Computer Education &middot; IELTS Department &middot; Jaffna, Nelliady, Chavakachcheri, Chunnakam, Kilinochchi, Sandilipay. This test gives an estimate only. It does not test Writing or Speaking and is not an official IELTS score.</footer>
+
+  <script>
+  (function () {
+    var RESULTS_URL = "https://script.google.com/macros/s/AKfycbwLkFpHNFGyaKrFv0Lfji6y75OdX13L21l7Q3A81jYujsRSHYigDUgCfqxhcsBUfoKqag/exec";
+    var WA = "94777173517"; // DMI WhatsApp hotline 0777 17 35 17
+
+    // [question, correct, wrong, wrong, wrong]  (correct first; options are shuffled for display)
+    var SECTIONS = [
+      { key: "grammar", title: "Grammar", sub: "Choose the correct word or words.", qs: [
+        ["My sister ____ in a bank in Jaffna.", "works", "work", "working", "is work"],
+        ["We ____ to Colombo last weekend.", "went", "go", "have gone", "going"],
+        ["There aren't ____ buses on Sunday.", "many", "much", "a few of", "lot"],
+        ["If it rains tomorrow, we ____ the match.", "will cancel", "cancelled", "would cancelled", "have cancelled"],
+        ["She has lived in Kandy ____ 2015.", "since", "for", "from", "at"],
+        ["This is the ____ book I have ever read.", "most interesting", "more interesting", "interestingest", "most interested"],
+        ["The new hospital ____ by the government in 2019.", "was built", "built", "has built", "was build"],
+        ["I'm looking forward to ____ you at the meeting.", "seeing", "see", "saw", "be seen"],
+        ["By the time we arrived, the film ____.", "had already started", "already starts", "has already started", "was already start"],
+        ["Hardly ____ the station when the train left.", "had I reached", "I had reached", "I reached", "did I reached"]
+      ]},
+      { key: "vocab", title: "Vocabulary", sub: "Choose the best word.", qs: [
+        ["Please ____ the form and give it to the receptionist.", "fill in", "fill on", "fill at", "fill with"],
+        ["What is the opposite of “increase”?", "decrease", "improve", "expand", "raise"],
+        ["Too much sugar is ____ to children's health.", "harmful", "helpful", "careless", "grateful"],
+        ["The concert was put ____ until next month because of the rain.", "off", "on", "up", "out"],
+        ["She is very ____. She always tells the truth.", "honest", "lazy", "jealous", "rude"],
+        ["A person who treats sick animals is a ____.", "vet", "dentist", "pharmacist", "lawyer"],
+        ["We need to ____ a decision before Friday.", "make", "do", "get", "put"],
+        ["The new law aims to ____ pollution in cities.", "reduce", "rise", "arise", "deduce"],
+        ["Despite the heavy rain, the match went ____ as planned.", "ahead", "after", "into", "under"],
+        ["Her argument was so ____ that everyone agreed with her.", "convincing", "confusing", "boring", "weak"]
+      ]},
+      { key: "reading", title: "Reading", sub: "Read each passage, then answer the questions.", passages: [
+        { title: "Kamala's Bakery", text: "Kamala opened a small bakery in Point Pedro in 2018. At first she sold only bread and buns, and she baked everything herself, starting at four o'clock every morning. Within two years, the bakery had become so popular that she hired three assistants and added cakes and short eats to the menu. Last year, Kamala started taking orders through WhatsApp. Now almost half of her sales come from online orders, mostly birthday cakes. She says the biggest challenge is not baking but delivery, because she has only one motorbike. Next year, she hopes to open a second shop in Jaffna town.",
+          qs: [
+            ["When did Kamala open her bakery?", "In 2018", "In 2016", "In 2020", "Last year"],
+            ["What did she sell at first?", "Only bread and buns", "Cakes and short eats", "Birthday cakes", "Everything on the menu today"],
+            ["How much of her sales now come from online orders?", "Almost half", "About a quarter", "All of them", "Very few"],
+            ["What does Kamala say is her biggest challenge?", "Delivery", "Baking", "Finding staff", "Buying flour"],
+            ["What does she plan to do next year?", "Open a second shop", "Buy a second motorbike", "Stop taking online orders", "Close the Point Pedro shop"]
+          ]},
+        { title: "Sleep and Memory", text: "For many years, scientists believed that sleep was simply a period of rest for the body. Recent research, however, suggests that sleep plays an active role in learning. During deep sleep, the brain appears to replay information gathered during the day, strengthening the connections that turn short-term memories into long-term ones. In one study, students who slept for eight hours after learning a list of new words remembered significantly more of them the next day than students who stayed awake for the same period. Interestingly, the benefit was greatest for words learned shortly before sleeping. Researchers caution, though, that sleep cannot replace study: it consolidates what has already been learned, but it does not create new knowledge.",
+          qs: [
+            ["What did scientists believe about sleep in the past?", "It was only rest for the body", "It helped people learn", "It created new knowledge", "It was harmful to memory"],
+            ["According to the passage, what happens during deep sleep?", "The brain replays information from the day", "The brain learns new words", "Short-term memories are deleted", "The body stops working"],
+            ["In the study, the students who slept ...", "remembered more of the new words", "remembered fewer of the new words", "learned new words while asleep", "studied for eight hours"],
+            ["The word “consolidates” is closest in meaning to ...", "strengthens", "replaces", "forgets", "creates"],
+            ["Which statement would the researchers agree with?", "Students still need to study; sleep helps them keep what they learned.", "Students can learn by sleeping instead of studying.", "Sleep is only useful for the body.", "It is best to learn new words early in the morning."]
+          ]}
+      ]}
+    ];
+
+    var LET = "ABCD", items = [], answers = {}, n = 0;
+    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+    function seeded(k) { var s = k * 9301 + 49297; return function () { s = (s * 9301 + 49297) % 233280; return s / 233280; }; }
+    function makeItem(q, section) {
+      n++;
+      var rnd = seeded(n + 11), order = [0, 1, 2, 3];
+      for (var k = 3; k > 0; k--) { var j = Math.floor(rnd() * (k + 1)); var x = order[k]; order[k] = order[j]; order[j] = x; }
+      var it = { n: n, q: q[0], opts: order.map(function (o) { return q[1 + o]; }), correct: order.indexOf(0), section: section };
+      items.push(it); return it;
+    }
+    function qHtml(it) {
+      var h = '<div class="q" id="q' + it.n + '"><div class="q-h"><span class="q-n">' + it.n + ".</span><span>" + esc(it.q) + '</span></div><div class="opts" role="radiogroup" aria-label="Question ' + it.n + '">';
+      it.opts.forEach(function (o, i) { h += '<label class="opt"><input type="radio" name="q' + it.n + '" value="' + i + '" data-q="' + it.n + '"><span class="l">' + LET[i] + "</span><span>" + esc(o) + "</span></label>"; });
+      return h + "</div></div>";
+    }
+
+    var html = "";
+    SECTIONS.forEach(function (s, si) {
+      html += '<div class="section-h"><span class="n">' + (si + 1) + "</span><div><h2>" + esc(s.title) + "</h2><p>" + esc(s.sub) + "</p></div></div>";
+      if (s.passages) {
+        s.passages.forEach(function (p) {
+          html += '<div class="passage"><h3>' + esc(p.title) + "</h3><p>" + esc(p.text) + "</p></div>";
+          p.qs.forEach(function (q) { html += qHtml(makeItem(q, s.key)); });
+        });
+      } else {
+        s.qs.forEach(function (q) { html += qHtml(makeItem(q, s.key)); });
+      }
+    });
+    document.getElementById("paper").innerHTML = html;
+    var TOTAL = items.length;
+
+    function show(id) { ["intro", "test", "details", "resultBox"].forEach(function (s) { document.getElementById(s).hidden = s !== id; }); window.scrollTo(0, 0); }
+    document.getElementById("startBtn").addEventListener("click", function () { show("test"); });
+
+    document.getElementById("paper").addEventListener("change", function (e) {
+      var q = e.target.dataset.q; if (!q) return;
+      answers[q] = Number(e.target.value);
+      document.querySelectorAll("#q" + q + " .opt").forEach(function (l) { l.classList.toggle("sel", l.querySelector("input").checked); });
+      var c = Object.keys(answers).length;
+      document.getElementById("pbar").style.width = (c / TOTAL * 100) + "%";
+      document.getElementById("ptxt").textContent = c + " / " + TOTAL + " answered";
+    });
+
+    var forced = false;
+    document.getElementById("finishBtn").addEventListener("click", function () {
+      var missing = TOTAL - Object.keys(answers).length, err = document.getElementById("testErr");
+      if (missing && !forced) {
+        forced = true; err.hidden = false;
+        err.textContent = missing + " question" + (missing > 1 ? "s are" : " is") + " not answered. Unanswered questions get no mark. Press the button again to finish anyway.";
+        return;
+      }
+      err.hidden = true; show("details");
+    });
+
+    function bandFor(score) {
+      if (score >= 28) return { band: "7.0+", cefr: "C1", next: "You are close to the top bands. Focus on Writing Task 2 and Speaking Part 3 to secure 7.0 or above." };
+      if (score >= 25) return { band: "6.5", cefr: "B2", next: "A strong level. Timed practice and Writing feedback can lift you to 7.0." };
+      if (score >= 22) return { band: "6.0", cefr: "B2", next: "A good base. Our IELTS course will build the vocabulary and exam skills you need for 6.5 to 7.0." };
+      if (score >= 18) return { band: "5.5", cefr: "B1", next: "You can follow everyday English. Grammar and vocabulary practice will move you to Band 6." };
+      if (score >= 14) return { band: "5.0", cefr: "B1", next: "Start with a strong English foundation, then move to IELTS exam practice." };
+      if (score >= 10) return { band: "4.5", cefr: "A2–B1", next: "We recommend DMI Spoken English first, then the IELTS course." };
+      return { band: "4.0 or below", cefr: "A2", next: "Build your basic English first with DMI Spoken English. It is the fastest route to IELTS." };
+    }
+
+    document.getElementById("leadForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = document.getElementById("fName").value.trim();
+      var phone = document.getElementById("fPhone").value.trim();
+      var digits = phone.replace(/[^\d]/g, "");
+      var branch = document.getElementById("fBranch").value, purpose = document.getElementById("fPurpose").value, when = document.getElementById("fWhen").value;
+      var consent = document.getElementById("fConsent").checked;
+      var err = document.getElementById("formErr"), problem = "";
+      if (name.length < 2) problem = "Please enter your full name.";
+      else if (digits.length < 9 || digits.length > 15) problem = "Please enter a valid WhatsApp number, for example 077 123 4567.";
+      else if (!branch || !purpose || !when) problem = "Please answer all the questions.";
+      else if (!consent) problem = "Please tick the box so DMI can contact you about your result.";
+      if (problem) { err.hidden = false; err.textContent = problem; return; }
+      err.hidden = true;
+
+      var per = { grammar: 0, vocab: 0, reading: 0 }, score = 0;
+      items.forEach(function (it) { if (answers[it.n] === it.correct) { score++; per[it.section]++; } });
+      var b = bandFor(score);
+      renderResult(name, score, per, b);
+      var payload = { type: "lead", source: "Free level test", name: name, phone: phone, branch: branch, purpose: purpose, when: when, score: score, total: TOTAL, band: b.band, grammar: per.grammar, vocab: per.vocab, reading: per.reading };
+      try { fetch(RESULTS_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) }).catch(function () {}); } catch (x) {}
+    });
+
+    function renderResult(name, score, per, b) {
+      var first = name.split(" ")[0];
+      var msg = "Hello DMI, I took the free IELTS Level Test. My estimated band is " + b.band + " (" + score + "/" + TOTAL + "). I would like to know about IELTS classes.";
+      var rows = [["Grammar", per.grammar], ["Vocabulary", per.vocab], ["Reading", per.reading]].map(function (r) {
+        var f = r[1] / 10, col = f >= .75 ? "var(--green)" : f >= .5 ? "var(--gold)" : "var(--red)";
+        return '<div class="row"><span>' + r[0] + '</span><div class="t"><i style="width:' + (f * 100) + "%;background:" + col + '"></i></div><span class="v">' + r[1] + "/10</span></div>";
+      }).join("");
+      document.getElementById("resultBox").innerHTML =
+        '<div class="card result"><p style="margin:0;color:var(--muted);font-weight:600">' + esc(first) + ", your estimated IELTS level</p>" +
+        '<div class="band"><big>Band ' + esc(b.band) + "</big><span>" + score + "/" + TOTAL + " &middot; CEFR " + esc(b.cefr) + "</span></div>" +
+        '<div class="rows">' + rows + "</div>" +
+        '<p style="margin:12px 0 0;font-size:16px">' + esc(b.next) + "</p>" +
+        '<div class="note">This is an estimate from grammar, vocabulary and reading only. Your real IELTS band also depends on Listening, Writing and Speaking. A DMI advisor will contact you on WhatsApp to explain your result and the best course for you.</div>' +
+        '<div class="actions"><a class="go wa" href="https://wa.me/' + WA + "?text=" + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Chat with DMI on WhatsApp</a>' +
+        '<a class="go ghost" href="../vocabulary/">Free IELTS vocabulary</a><a class="go ghost" href="../band-calculator/">Band score calculator</a></div>' +
+        '<p class="send">WhatsApp: 0777 17 35 17 &middot; All branches open every day, 8:00 AM to 5:30 PM.</p></div>';
+      show("resultBox");
+    }
+
+    // Copy protection for the questions
+    function toast(m) { var t = document.getElementById("toast"); if (!t) { t = document.createElement("div"); t.id = "toast"; t.className = "toast"; t.setAttribute("role", "status"); document.body.appendChild(t); } t.textContent = m; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { t.hidden = true; }, 2200); }
+    function field(el) { return el && el.closest && el.closest("input, select, textarea"); }
+    ["copy", "cut"].forEach(function (ev) { document.addEventListener(ev, function (e) { if (field(e.target)) return; e.preventDefault(); toast("Copying is turned off on this page."); }); });
+    document.addEventListener("contextmenu", function (e) { if (!field(e.target)) e.preventDefault(); });
+    document.addEventListener("selectstart", function (e) { if (!field(e.target)) e.preventDefault(); });
+    document.addEventListener("keydown", function (e) { if ((e.ctrlKey || e.metaKey) && /^[cxaps]$/i.test(e.key) && !field(e.target)) { e.preventDefault(); toast("Copying is turned off on this page."); } });
+  })();
+  </script>
+</body>
+</html>
